@@ -446,7 +446,7 @@
       const dotColor = st === 'blocked' ? 'var(--accent-rose)' : st === 'passed' ? 'var(--accent-emerald)' : 'var(--accent-sky)';
       return `
         <button type="button" class="agent-chip ${selected}" data-cast-agent="${a.id}">
-          <canvas class="agent-portrait-canvas" width="20" height="28" data-portrait-id="${a.id}"></canvas>
+          <canvas class="agent-portrait-canvas" width="18" height="28" data-portrait-id="${a.id}"></canvas>
           <div class="agent-chip-meta">
             <div class="agent-chip-name">
               <span>${a.name}</span>
@@ -571,7 +571,7 @@
     const isLight = state.theme === 'light';
 
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = isLight ? '#F8FAFC' : '#0B1120';
+    ctx.fillStyle = isLight ? '#F0EAD2' : '#26262F';
     ctx.fillRect(0, 0, W, H);
 
     const leftX = 76;
@@ -600,9 +600,9 @@
       const cp2x = aPos.x + (tPos.x - aPos.x) * 0.55;
       ctx.bezierCurveTo(cp1x, aPos.y, cp2x, tPos.y, tPos.x - 42, tPos.y);
       ctx.strokeStyle = active
-        ? (isLight ? '#237082' : '#72C2D6')
-        : (isLight ? 'rgba(140,123,153,0.35)' : 'rgba(120,118,134,0.35)');
-      ctx.lineWidth = active ? 2.2 : 1;
+        ? (isLight ? '#237082' : '#7BA8B8')
+        : (isLight ? 'rgba(140,123,153,0.35)' : 'rgba(126,123,140,0.32)');
+      ctx.lineWidth = active ? 2 : 1;
       ctx.stroke();
     });
 
@@ -610,8 +610,8 @@
     AGENTS.forEach((a) => {
       const p = agentCoords[a.id];
       const selected = a.id === state.selectedAgentId;
-      ctx.fillStyle = selected ? (isLight ? '#D0ECF2' : '#1E353D') : (isLight ? '#FCFAF0' : '#252530');
-      ctx.strokeStyle = selected ? '#72C2D6' : (isLight ? '#8C7B99' : '#787686');
+      ctx.fillStyle = selected ? (isLight ? '#D0ECF2' : '#1F2B30') : (isLight ? '#FCFAF0' : '#1E1E25');
+      ctx.strokeStyle = selected ? '#7BA8B8' : (isLight ? '#8C7B99' : '#5A5866');
       ctx.lineWidth = selected ? 1.5 : 1;
       ctx.fillRect(p.x - 44, p.y - 8, 78, 16);
       ctx.strokeRect(p.x - 44, p.y - 8, 78, 16);
@@ -622,8 +622,8 @@
     GRAPH_TOPICS.forEach((t) => {
       const p = topicCoords[t.id];
       const connected = GRAPH_EDGES.some((e) => e.agent === state.selectedAgentId && e.topic === t.id);
-      ctx.fillStyle = connected ? (isLight ? '#E4DEF7' : '#2D2742') : (isLight ? '#FCFAF0' : '#252530');
-      ctx.strokeStyle = connected ? '#B5A4F0' : (isLight ? '#8C7B99' : '#787686');
+      ctx.fillStyle = connected ? (isLight ? '#E4DEF7' : '#262233') : (isLight ? '#FCFAF0' : '#1E1E25');
+      ctx.strokeStyle = connected ? '#9E92C4' : (isLight ? '#8C7B99' : '#5A5866');
       ctx.lineWidth = connected ? 1.5 : 1;
       ctx.fillRect(p.x - 42, p.y - 8, 148, 16);
       ctx.strokeRect(p.x - 42, p.y - 8, 148, 16);
@@ -758,124 +758,76 @@
     ctx.imageSmoothingEnabled = false;
     const pal = FLOOR_THEMES[state.floorTheme] || FLOOR_THEMES.soc;
 
-    // 1. Cyber-SOC Tactical Grid Floor + Server Perimeter
+    // 1. Checkerboard tile floor
     for (let y = 0; y < GRID_H; y++) {
       for (let x = 0; x < GRID_W; x++) {
         const isBorder = x === 0 || y === 0 || x === GRID_W - 1 || y === GRID_H - 1;
         const isCenterCorridor = y === 6 || y === 7;
         ctx.fillStyle = isBorder ? pal.border : isCenterCorridor ? pal.aisle : (x + y) % 2 === 0 ? pal.bgA : pal.bgB;
         ctx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
-
-        if (!isBorder) {
-          ctx.strokeStyle = pal.gridLine;
-          ctx.lineWidth = 1;
-          ctx.strokeRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
-        }
       }
     }
 
-    // 2. Central PCB Data Conduit & Quantum Server Core (Row 6-7)
-    const busY = Math.round(6.5 * TILE_PX);
-    ctx.strokeStyle = 'rgba(232, 190, 98, 0.22)';
-    ctx.lineWidth = 6;
-    ctx.beginPath();
-    ctx.moveTo(2 * TILE_PX, busY);
-    ctx.lineTo((GRID_W - 2) * TILE_PX, busY);
-    ctx.stroke();
-
-    ctx.strokeStyle = '#72C2D6';
+    // 2. Subtle Central Pipeline Conduit Bus (Row 6-7)
+    ctx.strokeStyle = 'rgba(180, 172, 160, 0.28)';
     ctx.lineWidth = 2;
-    ctx.setLineDash([8, 8]);
-    ctx.lineDashOffset = -Math.floor(now / 28);
+    ctx.setLineDash([6, 6]);
+    ctx.lineDashOffset = -Math.floor(now / 40);
     ctx.beginPath();
-    ctx.moveTo(2 * TILE_PX, busY);
-    ctx.lineTo((GRID_W - 2) * TILE_PX, busY);
+    ctx.moveTo(2 * TILE_PX, 6.5 * TILE_PX);
+    ctx.lineTo((GRID_W - 2) * TILE_PX, 6.5 * TILE_PX);
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Vertical branch conduits from central bus to each of the 8 workstations
-    AGENTS.forEach((a) => {
-      const cx = (a.desk.x + 0.5) * TILE_PX;
-      const cy = (a.desk.y + 0.5) * TILE_PX;
-      const st = state.phaseStatuses[a.phaseIndex] || 'idle';
-      ctx.strokeStyle = st === 'blocked' ? 'rgba(240, 138, 128, 0.5)' : st === 'passed' ? 'rgba(116, 207, 155, 0.45)' : 'rgba(232, 190, 98, 0.28)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(cx, busY);
-      ctx.lineTo(cx, cy);
-      ctx.stroke();
-    });
+    // 3. Warm Gold Command Artifact in Center Hub
+    const sx = 11.5 * TILE_PX, sy = 6.5 * TILE_PX;
+    ctx.fillStyle = '#D4B06A';
+    ctx.fillRect(sx - 10, sy - 6, 20, 10);
+    ctx.fillStyle = '#1A1320';
+    ctx.fillRect(sx - 8, sy + 1, 16, 3);
 
-    // 3. Central Quantum Telemetry Server Rack Hub
-    const hubX = Math.round(11.5 * TILE_PX);
-    const hubY = busY;
-    ctx.fillStyle = '#191920';
-    ctx.fillRect(hubX - 36, hubY - 17, 72, 34);
-    ctx.strokeStyle = state.breakerState === 'OK' ? '#74CF9B' : '#F08A80';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(hubX - 36, hubY - 17, 72, 34);
-
-    // Animated server rack LED blades
-    for (let b = 0; b < 4; b++) {
-      const blink = Math.sin(state.corePulse + b * 1.3) > 0;
-      ctx.fillStyle = state.breakerState !== 'OK' ? '#F08A80' : blink ? '#74CF9B' : '#E8BE62';
-      ctx.fillRect(hubX - 26 + b * 14, hubY - 12, 10, 4);
-    }
-    ctx.font = '700 10px "JetBrains Mono", monospace';
-    ctx.fillStyle = '#ECE9E2';
-    ctx.textAlign = 'center';
-    ctx.fillText('CORE-HUB', hubX, hubY + 10);
-
-    // 4. Draw 8 High-Detail Cyber Workstations
+    // 4. Draw 8 Lifecycle Workstations
     AGENTS.forEach((a) => {
       const dx = a.desk.x * TILE_PX;
       const dy = a.desk.y * TILE_PX;
       const status = state.phaseStatuses[a.phaseIndex] || 'idle';
       const isSelected = state.selectedAgentId === a.id;
 
-      // glowing floor pad
-      ctx.fillStyle = isSelected
-        ? 'rgba(114, 194, 214, 0.18)'
-        : status === 'blocked'
-          ? 'rgba(240, 138, 128, 0.16)'
-          : 'rgba(20, 20, 25, 0.42)';
-      ctx.fillRect(dx - 28, dy - 20, 88, 92);
+      // Subtle Station Floor Mat
+      ctx.fillStyle = isSelected ? 'rgba(212, 176, 106, 0.16)' : 'rgba(0, 0, 0, 0.24)';
+      ctx.fillRect(dx - 30, dy - 18, 92, 92);
+      if (isSelected) {
+        ctx.strokeStyle = '#D4B06A';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(dx - 30, dy - 18, 92, 92);
+      }
 
-      ctx.strokeStyle = isSelected
-        ? '#72C2D6'
-        : status === 'blocked'
-          ? '#F08A80'
-          : status === 'passed'
-            ? 'rgba(116, 207, 155, 0.55)'
-            : '#6b5a4a';
-      ctx.lineWidth = isSelected ? 2 : 1;
-      ctx.strokeRect(dx - 28, dy - 20, 88, 92);
-
-      // Desk Surface with warm edge trim
+      // Warm Wood Desk Surface + Front Edge
       ctx.fillStyle = pal.deskTop;
-      ctx.fillRect(dx - 22, dy - 4, 76, 20);
-      ctx.fillStyle = status === 'blocked' ? '#F08A80' : status === 'passed' ? '#74CF9B' : pal.deskEdge;
-      ctx.fillRect(dx - 22, dy + 14, 76, 3);
+      ctx.fillRect(dx - 22, dy - 2, 76, 16);
+      ctx.fillStyle = pal.deskEdge;
+      ctx.fillRect(dx - 22, dy + 14, 76, 6);
 
-      // Triple Holo-Monitors on Desk (Left, Center, Right)
-      const screenCol = status === 'blocked' ? '#F08A80' : status === 'running' ? '#E8BE62' : status === 'passed' ? '#74CF9B' : '#72C2D6';
-      [-18, 6, 30].forEach((offsetX, mIdx) => {
-        ctx.fillStyle = '#191920';
-        ctx.fillRect(dx + offsetX, dy - 13, 20, 11);
-        ctx.fillStyle = screenCol;
-        ctx.fillRect(dx + offsetX + 2, dy - 11, 16, 2);
-        ctx.fillStyle = 'rgba(236, 233, 226, 0.35)';
-        ctx.fillRect(dx + offsetX + 2, dy - 7, ((Math.floor(now / 180) + mIdx * 3) % 12) + 4, 2);
-      });
+      // Dual Monitors on left & right wings of the desk (muted warm tones)
+      const screenCol =
+        status === 'passed' ? '#6E9E7D' :
+        status === 'blocked' ? '#C4766E' :
+        status === 'running' ? '#C9A65E' : '#6E99A8';
+      ctx.fillStyle = '#1A1320';
+      ctx.fillRect(dx - 20, dy - 12, 22, 12);
+      ctx.fillRect(dx + 30, dy - 12, 22, 12);
+      ctx.fillStyle = screenCol;
+      ctx.fillRect(dx - 18, dy - 10, 18, 8);
+      ctx.fillRect(dx + 32, dy - 10, 18, 8);
 
-      // Station Header Label (Dedicated band cleanly above monitors)
+      // Station Header Label
       ctx.font = '700 10px "JetBrains Mono", monospace';
-      ctx.fillStyle = isSelected ? '#E8BE62' : '#ECE9E2';
+      ctx.fillStyle = '#ECE9E2';
       ctx.textAlign = 'center';
-      ctx.fillText(`P${a.phaseIndex}·${a.phaseId}`, Math.round(dx + 16), Math.round(dy - 31));
+      ctx.fillText(`P${a.phaseIndex}:${a.phaseId}`, Math.round(dx + 16), Math.round(dy - 30));
     });
 
-    // 5. Update & Draw 20x32 Cyber-Engineer Sprites (Scaled 2x -> 40x64)
+    // 5. Update & Draw 18x32 Procedural Agent Sprites (Scaled 2x -> 36x64)
     AGENTS.forEach((a) => {
       const sp = state.agentSprites[a.id];
       if (!sp) return;
@@ -903,53 +855,50 @@
 
       const frames = getSceneFrames(a.id);
       const frameCanvas = frames[sp.stepFrame] || frames[0];
-      const px = Math.round(sp.x * TILE_PX - 4);
+      const px = Math.round(sp.x * TILE_PX - 2);
       const py = Math.round(sp.y * TILE_PX - 24);
 
-      // Warm shadow under feet
-      ctx.fillStyle = state.selectedAgentId === a.id ? 'rgba(232, 190, 98, 0.42)' : 'rgba(0, 0, 0, 0.45)';
-      ctx.fillRect(px + 6, py + 58, 28, 6);
+      // Subtle feet shadow
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.38)';
+      ctx.fillRect(px + 6, py + 58, 24, 6);
 
-      // Draw 20x32 sprite at 2x scale (40x64)
+      // Draw 18x32 sprite at 2x scale (36x64)
       ctx.drawImage(frameCanvas, 0, 0, SCENE_W, SCENE_H, px, py, SCENE_W * 2, SCENE_H * 2);
 
-      // Crisp Agent Callsign Plate below character
+      // Agent Callsign Plate below character
       ctx.font = '700 10px "Inter", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(25, 25, 32, 0.92)';
-      ctx.fillRect(px - 12, py + 63, 64, 14);
-      ctx.strokeStyle = state.selectedAgentId === a.id ? '#E8BE62' : '#787686';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(px - 12, py + 63, 64, 14);
-      ctx.fillStyle = state.selectedAgentId === a.id ? '#E8BE62' : '#ECE9E2';
-      ctx.fillText(a.name, px + 20, py + 73);
+      ctx.fillStyle = 'rgba(22, 22, 27, 0.92)';
+      ctx.fillRect(px - 10, py + 63, 56, 14);
+      ctx.fillStyle = state.selectedAgentId === a.id ? '#D4B06A' : '#ECE9E2';
+      ctx.fillText(a.name, px + 18, py + 73);
 
-      // Overhead Action Pill (Dedicated band cleanly above monitors)
+      // Overhead Action Pill (cleanly above monitors, warm dark charcoal)
       if (sp.bubbleText) {
         ctx.font = '700 10px "JetBrains Mono", monospace';
         const label = sp.bubbleText.length > 18 ? sp.bubbleText.slice(0, 17) + '…' : sp.bubbleText;
-        const textW = Math.ceil(Math.max(88, ctx.measureText(label).width + 20));
-        const bx = Math.round(px + 20 - textW / 2);
-        const by = Math.round(py - 26);
-        ctx.fillStyle = sp.status === 'blocked' ? '#3D2422' : '#FFF8E7';
-        ctx.strokeStyle = sp.status === 'blocked' ? '#F08A80' : '#1A1320';
-        ctx.lineWidth = 1.5;
-        ctx.fillRect(bx, by, textW, 15);
-        ctx.strokeRect(bx, by, textW, 15);
-        ctx.fillStyle = sp.status === 'blocked' ? '#ECE9E2' : '#1A1320';
-        ctx.fillText(label, Math.round(px + 20), by + 11);
+        const textW = Math.ceil(Math.max(84, ctx.measureText(label).width + 18));
+        const bx = Math.round(px + 18 - textW / 2);
+        const by = Math.round(py - 25);
+        ctx.fillStyle = sp.status === 'blocked' ? '#32201E' : '#222129';
+        ctx.strokeStyle = sp.status === 'blocked' ? '#CF7E76' : '#7E7B8C';
+        ctx.lineWidth = 1;
+        ctx.fillRect(bx, by, textW, 14);
+        ctx.strokeRect(bx, by, textW, 14);
+        ctx.fillStyle = '#ECE9E2';
+        ctx.fillText(label, Math.round(px + 18), by + 10);
       }
     });
 
     // 6. Update & Draw Flying FIPA Data Envelopes
     const ACT_HEX = {
-      request: '#72C2D6',
-      inform: '#ECE9E2',
-      propose: '#E8BE62',
-      query: '#B5A4F0',
-      agree: '#74CF9B',
-      done: '#74CF9B',
-      refuse: '#F08A80'
+      request: '#7BA8B8',
+      inform: '#D8D4CC',
+      propose: '#D4B06A',
+      query: '#9E92C4',
+      agree: '#78AE8A',
+      done: '#78AE8A',
+      refuse: '#CF7E76'
     };
 
     state.envelopes = state.envelopes.filter((env) => {

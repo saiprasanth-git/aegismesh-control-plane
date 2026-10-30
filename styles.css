@@ -4,34 +4,34 @@
 
 :root,
 [data-theme='dark'] {
-  --color-bg: #141419;
-  --color-surface: #1D1D25;
-  --color-surface-2: #252530;
-  --color-surface-3: #2C2C38;
-  --color-border: #787686;
-  --color-border-strong: #A5A0B0;
-  --color-divider: #363542;
+  --color-bg: #16161B;
+  --color-surface: #1E1E25;
+  --color-surface-2: #26262F;
+  --color-surface-3: #2E2E38;
+  --color-border: #5A5866;
+  --color-border-strong: #7E7B8C;
+  --color-divider: #34333E;
 
   --color-text: #ECE9E2;
-  --color-text-muted: #C6C3BC;
-  --color-text-faint: #A5A0B0;
+  --color-text-muted: #BDB9B0;
+  --color-text-faint: #94908A;
 
-  --accent-sky: #72C2D6;
-  --accent-sky-soft: #1E353D;
-  --accent-emerald: #74CF9B;
-  --accent-emerald-soft: #1F382B;
-  --accent-amber: #E8BE62;
-  --accent-amber-soft: #3B321E;
-  --accent-rose: #F08A80;
-  --accent-rose-soft: #3D2422;
-  --accent-violet: #B5A4F0;
-  --accent-violet-soft: #2D2742;
-  --accent-teal: #EDA882;
+  --accent-sky: #7BA8B8;
+  --accent-sky-soft: #1F2B30;
+  --accent-emerald: #78AE8A;
+  --accent-emerald-soft: #1E2C24;
+  --accent-amber: #D4B06A;
+  --accent-amber-soft: #30281B;
+  --accent-rose: #CF7E76;
+  --accent-rose-soft: #32201E;
+  --accent-violet: #9E92C4;
+  --accent-violet-soft: #262233;
+  --accent-teal: #C89578;
 
-  --shadow-card: 3px 3px 0 rgba(0, 0, 0, 0.42);
-  --shadow-glow-sky: 2px 2px 0 rgba(0, 0, 0, 0.35);
-  --shadow-glow-emerald: 2px 2px 0 rgba(0, 0, 0, 0.35);
-  --shadow-glow-rose: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow-card: 3px 3px 0 rgba(0, 0, 0, 0.38);
+  --shadow-glow-sky: 2px 2px 0 rgba(0, 0, 0, 0.32);
+  --shadow-glow-emerald: 2px 2px 0 rgba(0, 0, 0, 0.32);
+  --shadow-glow-rose: 2px 2px 0 rgba(0, 0, 0, 0.32);
 }
 
 [data-theme='light'] {
@@ -179,23 +179,22 @@ button {
   align-items: center;
   gap: 8px;
   padding: 5px 11px;
-  background: var(--accent-amber);
-  border: 2px solid #1A1320;
+  background: var(--accent-amber-soft);
+  border: 1px solid var(--accent-amber);
   border-radius: var(--radius-sm);
-  color: #1A1320;
+  color: var(--accent-amber);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.78rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   box-shadow: var(--shadow-glow-sky);
 }
 
 .brand-hex-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 2px;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
+  background: var(--accent-amber);
 }
 
 .brand-title-wrap h1 {
@@ -305,23 +304,14 @@ button {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 6px 9px 9px;
+  padding: 6px 9px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   text-align: left;
   overflow: hidden;
   min-width: 0;
-}
-
-.phase-node::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 3px;
-  background: var(--color-border-strong);
+  box-shadow: var(--shadow-glow-sky);
 }
 
 .phase-node:hover {
@@ -329,28 +319,17 @@ button {
 }
 
 .phase-node.passed {
-  border-color: rgba(16, 185, 129, 0.55);
-}
-.phase-node.passed::after {
-  background: var(--accent-emerald);
+  border-color: var(--color-border-strong);
 }
 
 .phase-node.active {
-  border-color: var(--accent-sky);
-  background: var(--accent-sky-soft);
-  box-shadow: var(--shadow-glow-sky);
-}
-.phase-node.active::after {
-  background: var(--accent-sky);
+  border: 1.5px solid var(--accent-amber);
+  background: var(--accent-amber-soft);
 }
 
 .phase-node.blocked {
-  border-color: var(--accent-rose);
+  border: 1.5px solid var(--accent-rose);
   background: var(--accent-rose-soft);
-  box-shadow: var(--shadow-glow-rose);
-}
-.phase-node.blocked::after {
-  background: var(--accent-rose);
 }
 
 .phase-top {
@@ -523,11 +502,14 @@ button {
 .kpi-delta.bad  { color: var(--accent-rose); }
 
 .kpi-bar {
-  height: 3px;
-  width: 100%;
-  background: var(--color-surface-3);
-  border-radius: 2px;
-  overflow: hidden;
+  display: none;
+}
+
+.status-dot-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-amber);
 }
 
 .kpi-bar-fill {
@@ -587,14 +569,6 @@ button {
   font-size: var(--text-xs);
   font-weight: 400;
   color: var(--color-text-muted);
-}
-
-.status-dot-live {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
 }
 
 /* 6. 2D Cyber-Ops Floor Canvas & Squad Cast Strip */

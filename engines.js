@@ -76,7 +76,7 @@
       model: 'claude-sonnet-4-6',
       provider: 'anthropic',
       accent: 'amber',
-      desk: { x: 13, y: 3 },
+      desk: { x: 14, y: 3 },
       capabilities: ['cleanroom-ts', 'iac-synthesis', 'vde-diff-gen', 'idempotency-locks'],
       pinned: [
         '- Emit minimal, deterministic unified diffs with zero unrequested file mutations.',
@@ -103,7 +103,7 @@
       model: 'claude-sonnet-4-6',
       provider: 'anthropic',
       accent: 'emerald',
-      desk: { x: 18, y: 3 },
+      desk: { x: 19, y: 3 },
       capabilities: ['ast-static-analysis', 'pr-review', 'cyclomatic-audit', 'contract-diff'],
       pinned: [
         '- Never allow the author agent (KAEL) to self-approve pull requests.',
@@ -130,7 +130,7 @@
       model: 'claude-sonnet-4-6',
       provider: 'anthropic',
       accent: 'rose',
-      desk: { x: 3, y: 8 },
+      desk: { x: 3, y: 9 },
       capabilities: ['property-testing', 'race-simulation', 'locale-matrix', 'flaky-quarantine'],
       pinned: [
         '- Stress-test every patch against 50-way concurrent race bursts and multi-locale matrices.',
@@ -157,7 +157,7 @@
       model: 'claude-opus-4-6',
       provider: 'anthropic',
       accent: 'indigo',
-      desk: { x: 8, y: 8 },
+      desk: { x: 8, y: 9 },
       capabilities: ['aot-policy-gate', 'path-shield', 'secret-egress-filter', 'prompt-firewall'],
       pinned: [
         '- Enforce Ahead-of-Time (AOT) policy gates before any destructive or production tool call.',
@@ -184,7 +184,7 @@
       model: 'claude-sonnet-4-6',
       provider: 'anthropic',
       accent: 'teal',
-      desk: { x: 13, y: 8 },
+      desk: { x: 14, y: 9 },
       capabilities: ['argo-canary', 'slo-auto-rollback', 'finops-breaker', 'blue-green-shift'],
       pinned: [
         '- Roll out production changes progressively: 5% -> 25% -> 100% traffic weight.',
@@ -211,7 +211,7 @@
       model: 'claude-haiku-4-5',
       provider: 'anthropic',
       accent: 'mint',
-      desk: { x: 18, y: 8 },
+      desk: { x: 19, y: 9 },
       capabilities: ['otel-waterfall', 'dora-analytics', 'anomaly-triage', 'closed-loop-feedback'],
       pinned: [
         '- Correlate OpenTelemetry trace spans with deployment SHAs in real time.',
