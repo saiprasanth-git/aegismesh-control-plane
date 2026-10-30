@@ -681,7 +681,8 @@
       if (selectEl && selectEl.value !== state.currentMissionId) {
         selectEl.value = state.currentMissionId;
       }
-      document.getElementById('hudMissionLabel').textContent = `${m.category} · ${m.targetRepo.replace('github.com/', '')}`;
+      const shortCat = m.category.split('(')[0].trim();
+      document.getElementById('hudMissionLabel').textContent = `${shortCat} · ${m.targetRepo.replace('github.com/', '')}`;
     }
     const runBtn = document.getElementById('runPipelineBtn');
     if (runBtn) {
