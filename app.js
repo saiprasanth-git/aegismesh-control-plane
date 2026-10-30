@@ -117,7 +117,7 @@
     AGENTS.forEach((a) => {
       const sp = state.agentSprites[a.id];
       if (!sp) return;
-      if (a.id === step.from || a.id === step.to) {
+      if (a.id === step.from) {
         sp.status = step.ok ? 'working' : 'blocked';
         const shortTool = step.tool.includes('.') ? step.tool.split('.')[1] : step.tool;
         sp.bubbleText = `${step.act.toUpperCase()}:${shortTool}`;
@@ -809,24 +809,22 @@
     // 3. Central Quantum Telemetry Server Rack Hub
     const hubX = Math.round(11.5 * TILE_PX);
     const hubY = busY;
-    ctx.fillStyle = pal.rackBg;
-    ctx.fillRect(hubX - 28, hubY - 14, 56, 28);
+    ctx.fillStyle = '#070A12';
+    ctx.fillRect(hubX - 36, hubY - 17, 72, 34);
     ctx.strokeStyle = state.breakerState === 'OK' ? '#10B981' : '#F43F5E';
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(hubX - 28, hubY - 14, 56, 28);
+    ctx.strokeRect(hubX - 36, hubY - 17, 72, 34);
 
     // Animated server rack LED blades
     for (let b = 0; b < 4; b++) {
       const blink = Math.sin(state.corePulse + b * 1.3) > 0;
       ctx.fillStyle = state.breakerState !== 'OK' ? '#F43F5E' : blink ? '#10B981' : '#38BDF8';
-      ctx.fillRect(hubX - 22 + b * 12, hubY - 8, 8, 4);
-      ctx.fillStyle = '#334155';
-      ctx.fillRect(hubX - 22 + b * 12, hubY - 1, 8, 3);
+      ctx.fillRect(hubX - 26 + b * 14, hubY - 12, 10, 4);
     }
-    ctx.font = '700 8px "JetBrains Mono", monospace';
-    ctx.fillStyle = '#94A3B8';
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#E2E8F0';
     ctx.textAlign = 'center';
-    ctx.fillText('AEGIS-CORE', hubX, hubY + 10);
+    ctx.fillText('CORE-HUB', hubX, hubY + 10);
 
     // 4. Draw 8 High-Detail Cyber Workstations
     AGENTS.forEach((a) => {

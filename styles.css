@@ -480,18 +480,20 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 .kpi-tag {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.63rem;
   padding: 0 5px;
   border-radius: 3px;
   background: var(--color-surface-3);
   color: var(--color-text-muted);
+  white-space: nowrap;
 }
 
 .kpi-value-row {
@@ -628,17 +630,14 @@ button {
 .hud-pill {
   pointer-events: auto;
   padding: 2px 9px;
-  background: rgba(9, 13, 24, 0.9);
+  background: rgba(9, 13, 24, 0.92);
   border: 1px solid #334155;
   color: #E2E8F0;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   border-radius: 4px;
   display: block;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 56%;
 }
 
 .cast-strip {
@@ -699,11 +698,10 @@ button {
 }
 
 .agent-chip-role {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
+  letter-spacing: -0.01em;
   color: var(--color-text-muted);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* 7. Right Column: 4-Mode Engineering Workbench */
@@ -845,15 +843,15 @@ button {
 }
 
 .mono-pre {
-  white-space: pre-wrap;
-  word-break: break-word;
+  white-space: pre;
+  word-break: normal;
 }
 
 .diff-line {
   display: block;
   padding: 1px 6px;
-  white-space: pre-wrap;
-  word-break: break-all;
+  white-space: pre;
+  word-break: normal;
   border-radius: 2px;
 }
 
