@@ -1,0 +1,9 @@
+{
+  "name": "munder-difflin-devops-mesh",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Munder Difflin x REA: 8-Phase Agentic DevOps Mesh Command Center",
+  "scripts": {
+    "start": "serve . -l 3000 --no-clipboard"
+  }
+}
