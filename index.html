@@ -3,118 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Munder Difflin × REA — Agentic DevOps Mesh Command Center</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23191920'/%3E%3Crect x='5' y='12' width='22' height='10' fill='%23E8BE62' stroke='%231A1320' stroke-width='2'/%3E%3Crect x='7' y='18' width='18' height='3' fill='%2372C2D6'/%3E%3C/svg%3E" />
+  <title>AEGIS // MESH — Autonomous DevOps &amp; Binary Forensics Control Plane</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230B1120' stroke='%2338BDF8' stroke-width='2'/><path d='M16 5L26 11V21L16 27L6 21V11L16 5Z' fill='none' stroke='%2310B981' stroke-width='2.5'/><circle cx='16' cy='16' r='4' fill='%2338BDF8'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <div class="app-shell">
     <!-- 1. Top Command Header -->
-    <header class="top-header">
+    <header class="top-header" role="banner">
       <div class="brand-group">
-        <span class="brand-badge">MUNDER DIFFLIN × REA</span>
+        <div class="brand-badge">
+          <span class="brand-hex-dot"></span>
+          <span>AEGIS // MESH</span>
+        </div>
         <div class="brand-title-wrap">
-          <h1>Agentic DevOps Mesh</h1>
-          <div class="brand-subtitle">8-Phase Autonomous SDLC · FIPA Hive Protocol · Circuit-Breaker Guardrails</div>
+          <h1>Autonomous DevOps &amp; Forensics Control Plane</h1>
+          <div class="brand-subtitle">8-Phase Agentic SDLC · Binary Recon · Zero-Trust Guardrails · Canary Rollouts</div>
         </div>
       </div>
 
-      <div class="header-controls">
-        <label for="missionSelect" class="sr-only">Select DevOps Mission</label>
-        <select id="missionSelect" class="control-select" aria-label="Select DevOps Mission">
+      <div class="header-controls" role="toolbar" aria-label="Pipeline Mission &amp; Simulation Controls">
+        <label for="missionSelect" class="sr-only">Select DevOps Lifecycle Mission</label>
+        <select id="missionSelect" class="control-select" aria-label="Select DevOps Lifecycle Mission">
           <option value="mission-payment-canary">Mission 1: Idempotent Payment Retry &amp; Canary Rollout</option>
-          <option value="mission-rea-crash">Mission 2: REA Linux Crash-Note Ownership Forensics</option>
-          <option value="mission-cleanroom-api">Mission 3: Black-Box Widget → Clean-Room API + CI/CD</option>
+          <option value="mission-rea-crash">Mission 2: Linux Crash-Note PID Ownership Forensics</option>
+          <option value="mission-cleanroom-api">Mission 3: Black-Box Widget to Clean-Room API + CI/CD</option>
           <option value="mission-chaos-guardrail">Mission 4: Adversarial prod.tf Edit &amp; Breaker Quarantine</option>
         </select>
 
-        <button type="button" id="runPipelineBtn" class="btn btn-primary">▶ Run Full Lifecycle</button>
-        <button type="button" id="stepPhaseBtn" class="btn btn-sky">⏭ Step Phase</button>
-        <button type="button" id="resetPipelineBtn" class="btn">↺ Reset</button>
-        <button type="button" id="newMissionBtn" class="btn btn-lilac">+ Custom Repo / Crash</button>
-        <button type="button" id="themeToggleBtn" class="btn" aria-label="Switch Theme">☀ Cream Mode</button>
+        <button type="button" id="runPipelineBtn" class="btn btn-primary" title="Animate all 8 DevOps phases sequentially">
+          ▶ Run Full Lifecycle
+        </button>
+        <button type="button" id="stepPhaseBtn" class="btn btn-accent" title="Advance one phase at a time">
+          ⏭ Step Phase
+        </button>
+        <button type="button" id="resetPipelineBtn" class="btn" title="Reset and replay mission baseline">
+          ↺ Reset
+        </button>
+        <button type="button" id="newMissionBtn" class="btn btn-violet" title="Launch custom repository or binary crash forensics run">
+          + Custom Target
+        </button>
+        <button type="button" id="openOrgRoiBtn" class="btn btn-amber" title="View Enterprise Organizational Value &amp; ROI Playbook">
+          ★ Org ROI &amp; Playbook
+        </button>
+        <button type="button" id="themeToggleBtn" class="btn" title="Switch between Cyber-Ops Dark and Daylight Architect Mode">
+          ☀ Daylight Mode
+        </button>
       </div>
     </header>
 
-    <!-- 2. 8-Phase DevOps Infinity Loop / LangGraph State Ribbon -->
-    <nav id="lifecycleRibbon" class="lifecycle-ribbon" aria-label="8-Phase DevOps Lifecycle State Machine"></nav>
+    <!-- 2. 8-Phase DevOps Lifecycle Pipeline Ribbon (LangGraph State Machine) -->
+    <nav id="lifecycleRibbon" class="lifecycle-ribbon" aria-label="8-Phase DevOps Lifecycle DAG"></nav>
 
-    <!-- 3. Human-in-the-Loop / Circuit Breaker Alert Banner -->
+    <!-- 3. Human-in-the-Loop Escalation Gate Banner (Shown on Guardrail / Breaker Halt) -->
     <section id="gateBanner" class="gate-banner" hidden aria-live="polite">
       <div class="gate-banner-info">
-        <span id="gateBadgeText" class="gate-badge">GUARDRAIL INTERCEPT</span>
-        <span id="gateMessageText">Protected path or velocity guardrail triggered.</span>
+        <span id="gateReasonBadge" class="gate-badge">BREAKER: STOP</span>
+        <span id="gateMessageText">Protected Path Shield intercepted unauthorized write to `infra/prod.tf`. Pipeline quarantined at Phase 6.</span>
       </div>
-      <div style="display:flex;gap:var(--space-2);">
-        <button type="button" id="approveGateBtn" class="btn btn-primary">✓ Approve Override &amp; Resume</button>
-        <button type="button" id="rollbackGateBtn" class="btn btn-danger">Rollback to Baseline</button>
+      <div class="gate-actions">
+        <button type="button" id="approveGateBtn" class="btn btn-primary">✓ Approve Safe Remediation &amp; Resume</button>
+        <button type="button" id="rollbackGateBtn" class="btn btn-danger">⤺ Rollback Canary to Stable Baseline</button>
       </div>
     </section>
 
-    <!-- 4. DORA Four Keys + Canary & Circuit-Breaker KPI Strip -->
-    <section class="kpi-strip" aria-label="DORA and Operational Telemetry">
+    <!-- 4. DORA Elite Metrics & Circuit-Breaker Telemetry Strip -->
+    <section class="kpi-strip" aria-label="DORA &amp; Circuit-Breaker Telemetry">
       <div class="kpi-card">
-        <div class="kpi-label"><span>Deployment Freq</span><span>DORA #1</span></div>
+        <div class="kpi-label"><span>Deployment Freq</span><span class="kpi-tag">DORA #1</span></div>
         <div class="kpi-value-row">
           <span id="kpiDeployFreq" class="kpi-value">14.2 / day</span>
-          <span class="kpi-delta delta-good">▲ Elite</span>
+          <span class="kpi-delta good">▲ Elite Tier</span>
         </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill emerald" style="width:92%"></div></div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label"><span>Lead Time for Changes</span><span>DORA #2</span></div>
+        <div class="kpi-label"><span>Lead Time for Changes</span><span class="kpi-tag">DORA #2</span></div>
         <div class="kpi-value-row">
           <span id="kpiLeadTime" class="kpi-value">11m 40s</span>
-          <span class="kpi-delta delta-good">▼ -68%</span>
+          <span class="kpi-delta good">▼ -68% vs Manual</span>
         </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill sky" style="width:88%"></div></div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label"><span>Change Failure Rate</span><span>DORA #3</span></div>
+        <div class="kpi-label"><span>Change Failure Rate</span><span class="kpi-tag">DORA #3</span></div>
         <div class="kpi-value-row">
           <span id="kpiChangeFail" class="kpi-value">1.8%</span>
-          <span class="kpi-delta delta-good">SLO &lt; 5%</span>
+          <span class="kpi-delta good">SLO &lt; 5.0%</span>
         </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill emerald" style="width:94%"></div></div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label"><span>Mean Time to Recover</span><span>DORA #4</span></div>
+        <div class="kpi-label"><span>Mean Time to Recover</span><span class="kpi-tag">DORA #4</span></div>
         <div class="kpi-value-row">
           <span id="kpiMttr" class="kpi-value">2m 15s</span>
-          <span class="kpi-delta delta-good">Auto-Heal</span>
+          <span class="kpi-delta good">Auto-Rollback</span>
         </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill violet" style="width:90%"></div></div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label"><span>Argo Canary Weight</span><span>Phase 7 CD</span></div>
+        <div class="kpi-label"><span>Argo Canary Weight</span><span class="kpi-tag">Phase 7 CD</span></div>
         <div class="kpi-value-row">
-          <span id="kpiCanaryPct" class="kpi-value">100%</span>
-          <span class="kpi-delta delta-good">P99 38ms</span>
+          <span id="kpiCanaryWeight" class="kpi-value">100%</span>
+          <span id="kpiCanarySub" class="kpi-delta good">P99 38ms</span>
         </div>
+        <div class="kpi-bar"><div id="kpiCanaryBar" class="kpi-bar-fill sky" style="width:100%"></div></div>
       </div>
+
       <div class="kpi-card">
-        <div class="kpi-label"><span>Circuit Breaker</span><span>breaker.ts</span></div>
+        <div class="kpi-label"><span>Velocity Circuit Breaker</span><span class="kpi-tag">FinOps &amp; Hops</span></div>
         <div class="kpi-value-row">
           <span id="kpiBreakerState" class="kpi-value">OK ($0.08/m)</span>
-          <span id="kpiBreakerDelta" class="kpi-delta delta-good">Hops 3/6</span>
+          <span id="kpiHopCount" class="kpi-delta good">Hops 6/6</span>
         </div>
+        <div class="kpi-bar"><div id="kpiBreakerBar" class="kpi-bar-fill emerald" style="width:24%"></div></div>
       </div>
     </section>
 
-    <!-- 5. Primary Two-Column Workspace: Pixel Office Floor + Multi-Tab Workbench -->
+    <!-- 5. Main Two-Column Interactive Workspace -->
     <main class="workspace-grid">
-      <!-- Left Column: Live 2D Pixel-Art DevOps Floor + 8-Agent Cast Strip -->
-      <section class="panel-card" aria-label="Interactive Pixel-Art DevOps Floor">
+      <!-- Left Column: High-Detail 2D Pixel Cyber-Ops Floor + 8-Agent Squad Roster -->
+      <section class="panel-card" aria-label="2D Cyber-Ops Command Floor">
         <div class="panel-header">
           <div class="panel-title">
-            <span>2D Multi-Agent DevOps Floor</span>
-            <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);">(Click any station or agent)</span>
+            <span class="status-dot-live"></span>
+            <span>AegisMesh 2D Cyber-Ops Floor</span>
+            <span class="panel-subtitle-hint">(Click any workstation or specialist)</span>
           </div>
           <div class="panel-actions">
-            <label for="floorThemeSelect" class="sr-only">Select World Theme</label>
-            <select id="floorThemeSelect" class="control-select" style="min-width:190px;padding:4px 8px;" aria-label="Select World Theme">
-              <option value="office">World: Dunder Mifflin Floor</option>
-              <option value="brooklyn99">World: 99th Precinct Bullpen</option>
-              <option value="siliconvalley">World: Aviato Hacker Hostel</option>
+            <label for="floorThemeSelect" class="sr-only">Select Sector Environment</label>
+            <select id="floorThemeSelect" class="control-select compact-select" aria-label="Select Sector Environment">
+              <option value="soc">Sector 01: Orbital Cyber-SOC</option>
+              <option value="cleanroom">Sector 02: Quantum Clean-Room Lab</option>
+              <option value="bridge">Sector 03: Tactical Ops Bridge</option>
             </select>
           </div>
         </div>
@@ -122,105 +150,117 @@
         <div class="floor-canvas-wrap">
           <canvas id="officeCanvas" width="768" height="448"></canvas>
           <div class="floor-hud-overlay">
-            <span id="hudFloorThemeLabel" class="hud-pill">Dunder Mifflin DevOps Floor</span>
-            <span id="hudMissionLabel" class="hud-pill">Full-Lifecycle Feature Delivery</span>
+            <span id="hudFloorThemeLabel" class="hud-pill">Sector 01: Orbital Cyber-SOC</span>
+            <span id="hudMissionLabel" class="hud-pill">Full-Lifecycle Feature Delivery · acme-pay/checkout-mesh-service</span>
           </div>
         </div>
 
-        <div id="castStrip" class="cast-strip" aria-label="DevOps Squad Cast Roster"></div>
+        <div id="castStrip" class="cast-strip" aria-label="Autonomous Cyber-DevOps Squad"></div>
       </section>
 
       <!-- Right Column: 4-Mode Engineering, Guardrail & Forensics Workbench -->
       <section class="panel-card" aria-label="DevOps Engineering Workbench">
         <div class="workbench-tabs" role="tablist">
-          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-target="tab-vde">1. REA &amp; VDE Diff</button>
+          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-target="tab-vde">1. Recon &amp; Code Diff</button>
           <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-target="tab-guardrails">2. Guardrails &amp; Chaos</button>
           <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-target="tab-memory">3. KG &amp; Memory Graph</button>
-          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-target="tab-hires">4. Squad .hire.json</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-target="tab-hires">4. Squad Manifest</button>
         </div>
 
         <div class="workbench-body">
-          <!-- Tab 1: REA Forensics, VDE Code Diff & GitHub Actions YAML -->
+          <!-- Tab 1: Binary Recon Forensics, Code Diff & GitHub Actions YAML -->
           <div id="tab-vde" class="tab-pane" role="tabpanel">
-            <div style="padding:var(--space-2) var(--space-3);background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);">
-                <span style="font-size:var(--text-xs);font-weight:700;color:var(--cth-lilac);">CREED REA FORENSICS EVIDENCE (morluto/rea)</span>
-                <span id="reaArtifactLabel" style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);"></span>
+            <div class="evidence-box">
+              <div class="evidence-header">
+                <span class="evidence-badge">CIPHER · PHASE 2 BINARY &amp; CRASH FORENSICS</span>
+                <span id="reaArtifactLabel" class="evidence-artifact"></span>
               </div>
-              <ul id="reaFindingsList" style="margin-top:6px;padding-left:18px;font-size:var(--text-xs);color:var(--color-text);"></ul>
+              <ul id="reaFindingsList" class="evidence-list"></ul>
             </div>
 
             <div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                <span style="font-size:var(--text-xs);font-weight:700;">RYAN VDE PATCH &amp; JIM PR REVIEW: <code id="vdeDiffFilename" style="color:var(--cth-lemon);font-family:var(--font-mono);"></code></span>
-                <button type="button" id="approvePatchBtn" class="btn btn-primary" style="padding:3px 10px;">✓ Sign &amp; Promote Diff</button>
+              <div class="section-bar">
+                <span class="section-bar-title">
+                  KAEL SYNTHESIS &amp; LYRA AST REVIEW: <code id="diffFilePath" class="file-code-tag"></code>
+                </span>
+                <button type="button" id="approvePatchBtn" class="btn btn-primary btn-xs">✓ Sign &amp; Promote Diff</button>
               </div>
-              <div id="vdeDiffBox" class="code-box"></div>
+              <div id="diffCodeBox" class="code-box" role="region" aria-label="Unified Code Diff"></div>
             </div>
 
             <div>
-              <div style="font-size:var(--text-xs);font-weight:700;margin-bottom:6px;">GENERATED GITHUB ACTIONS + ARGO ROLLOUTS PIPELINE</div>
-              <pre id="pipelineYamlBox" class="code-box"></pre>
+              <div class="section-bar">
+                <span class="section-bar-title">GENERATED GITHUB ACTIONS + ARGO ROLLOUTS PIPELINE</span>
+                <span class="mono-muted">SLSA Level 3 · Zero-CVE Gate</span>
+              </div>
+              <pre id="pipelineYamlBox" class="code-box mono-pre"></pre>
             </div>
           </div>
 
-          <!-- Tab 2: Enterprise Guardrails, Circuit Breaker & Chaos Fault Injection -->
+          <!-- Tab 2: 6 Enterprise Guardrails & Interactive Chaos Fault Injection -->
           <div id="tab-guardrails" class="tab-pane" role="tabpanel" hidden>
-            <div style="padding:var(--space-2) var(--space-3);background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-2);">
-              <div>
-                <div style="font-size:var(--text-xs);font-weight:700;color:var(--cth-lemon);">MUNDER DIFFLIN CIRCUIT BREAKER (src/main/breaker.ts)</div>
-                <div id="breakerLadderStatus" style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);"></div>
+            <div class="chaos-control-box">
+              <div class="section-bar">
+                <span class="section-bar-title" style="color:var(--accent-amber);">
+                  3-STAGE VELOCITY &amp; SAFETY CIRCUIT BREAKER
+                </span>
+                <span id="breakerDetailLabel" class="mono-muted">State: OK · Burn: $0.08/min · Hops: 6/6</span>
               </div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                <button type="button" class="btn btn-warning" data-chaos-fault="flaky-test">⚡ Inject Flaky Race</button>
-                <button type="button" class="btn btn-warning" data-chaos-fault="livelock-hops">⚡ Trigger Hop=6 Livelock</button>
-                <button type="button" class="btn btn-danger" data-chaos-fault="canary-spike">⚡ Canary P99 Spike</button>
-                <button type="button" class="btn btn-danger" data-chaos-fault="prod-tf-breach">⚡ Rogue prod.tf Edit</button>
+              <div class="chaos-btn-row">
+                <button type="button" class="btn btn-amber" data-chaos-fault="flaky-test">⚡ Inject Concurrency Race</button>
+                <button type="button" class="btn btn-amber" data-chaos-fault="livelock-hops">⚡ Trigger Hop=6 Livelock</button>
+                <button type="button" class="btn btn-danger" data-chaos-fault="canary-spike">⚡ Canary P99 Latency Spike</button>
+                <button type="button" class="btn btn-danger" data-chaos-fault="prod-tf-breach">⚡ Rogue prod.tf Write</button>
               </div>
             </div>
 
             <div id="guardrailGrid" class="guardrail-grid"></div>
           </div>
 
-          <!-- Tab 3: Knowledge Graph Search (kg-core.cjs), Bipartite Memory Graph & reflect.ts -->
+          <!-- Tab 3: Knowledge Graph Search + Bipartite Graph + 3-Region Memory Compactor -->
           <div id="tab-memory" class="tab-pane" role="tabpanel" hidden>
-            <div style="display:flex;gap:var(--space-2);align-items:center;">
-              <label for="kgSearchInput" class="sr-only">Search Knowledge Graph</label>
-              <input id="kgSearchInput" type="search" class="form-input" style="flex:1;" placeholder="Search kg-core.cjs chunks (e.g., breaker, crash, canary, idempotency, hire)..." />
-              <button type="button" id="compactMemoryBtn" class="btn btn-lilac">Run /compact (reflect.ts)</button>
+            <div class="kg-search-row">
+              <label for="kgSearchInput" class="sr-only">Search Engineering Knowledge Graph</label>
+              <input id="kgSearchInput" class="form-input" type="search" placeholder="Search Knowledge Graph (e.g. crash, redis, breaker, prod.tf, fipa)..." />
+              <button type="button" id="compactMemoryBtn" class="btn btn-violet">Run /compact Reflection</button>
             </div>
 
-            <div id="kgResultsList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-2);"></div>
+            <div id="kgResultsGrid" class="kg-results-grid"></div>
 
             <div>
-              <div style="font-size:var(--text-xs);font-weight:700;margin-bottom:4px;">BIPARTITE AGENT–TOPIC MEMORY GRAPH (MEMORY_GRAPH_SPEC.md)</div>
-              <canvas id="memoryGraphCanvas" width="520" height="230"></canvas>
+              <div class="section-bar">
+                <span class="section-bar-title">BIPARTITE AGENT ↔ TOPIC KNOWLEDGE GRAPH</span>
+                <span class="mono-muted">Click any agent to inspect 3-region memory</span>
+              </div>
+              <canvas id="memoryGraphCanvas" width="540" height="185" class="memory-graph-canvas"></canvas>
             </div>
 
             <div>
-              <div id="selectedAgentMemoryTitle" style="font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;margin-bottom:4px;color:var(--cth-sky);"></div>
-              <pre id="agentMemoryMarkdown" class="code-box" style="max-height:140px;overflow-y:auto;"></pre>
+              <div class="section-bar">
+                <span id="memoryAgentLabel" class="section-bar-title" style="color:var(--accent-sky);">agents/vex/memory.md</span>
+                <span class="mono-muted">Pinned · Condensed · Recent</span>
+              </div>
+              <pre id="agentMemoryMarkdown" class="code-box mono-pre" style="max-height:145px;"></pre>
             </div>
           </div>
 
-          <!-- Tab 4: Shareable munder-difflin/hire@1 Squad Export & Reference Architecture -->
+          <!-- Tab 4: Portable Squad Manifest & Reference Architecture -->
           <div id="tab-hires" class="tab-pane" role="tabpanel" hidden>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);flex-wrap:wrap;">
+            <div class="section-bar">
               <div>
-                <div style="font-size:var(--text-xs);font-weight:700;">OFFICIAL MUNDER-DIFFLIN/HIRE@1 ROLE MANIFEST</div>
-                <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Select any agent on the floor to inspect their portable role contract</div>
+                <div class="section-bar-title">PORTABLE AEGISMESH/AGENT@1 SQUAD CONTRACT</div>
+                <div class="mono-muted">Select any specialist on the floor to inspect their role contract</div>
               </div>
-              <button type="button" id="downloadHireBtn" class="btn btn-primary">⬇ Download Squad .hire.json Bundle</button>
+              <button type="button" id="downloadHireBtn" class="btn btn-primary">⬇ Export Squad .agent.json</button>
             </div>
+            <pre id="hireJsonBox" class="code-box mono-pre" style="max-height:240px;"></pre>
 
-            <pre id="hireManifestBox" class="code-box" style="max-height:220px;overflow-y:auto;"></pre>
-
-            <div style="padding:var(--space-2) var(--space-3);background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:var(--text-xs);">
-              <div style="font-weight:700;margin-bottom:6px;color:var(--cth-mint);">INTEGRATED REFERENCE ARCHITECTURE STANDARDS</div>
-              <ul style="padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--color-text-muted);">
-                <li><strong>Munder Difflin Hive &amp; Breaker</strong>: FIPA speech-act routing, <code>maxHops=6</code> anti-livelock, <code>steer → constrain → stop</code> velocity circuit breaker, and 3-region <code>reflect.ts</code> memory compaction.</li>
-                <li><strong>REA (Reverse Engineer Anything)</strong>: Pre-development binary, Electron bundle, and crash-note PID ownership verification before patch synthesis.</li>
-                <li><strong>DORA + Azure/AWS/TalkOps Agentic SDLC</strong>: Path-based restrictions on <code>.env</code>/<code>prod.tf</code>, Ahead-of-Time (AOT) policy gates, progressive Argo canary rollouts, and continuous OTel feedback back into Phase 1 Planning.</li>
+            <div class="arch-reference-box">
+              <div class="section-bar-title" style="color:var(--accent-emerald);margin-bottom:4px;">AEGISMESH ENTERPRISE REFERENCE ARCHITECTURE</div>
+              <ul class="evidence-list">
+                <li><strong>Deterministic LangGraph DAG + FIPA Routing:</strong> Typed speech-act envelopes (`request`, `inform`, `propose`, `agree`, `refuse`, `done`) with `maxHops=6` anti-livelock protection.</li>
+                <li><strong>Phase 2 Binary &amp; Crash Recon:</strong> Pre-development ELF/Mach-O crash-note triage, sourceless bundle AST recovery, and golden fixture extraction before code synthesis.</li>
+                <li><strong>Zero-Trust AOT Policy Shield &amp; Progressive Canary:</strong> Protected path denial on `.env*` and `prod.tf`, SLSA Level 3 provenance, and automated Argo Rollouts error-budget rollback.</li>
               </ul>
             </div>
           </div>
@@ -228,50 +268,103 @@
       </section>
     </main>
 
-    <!-- 6. Bottom Live Telemetry: FIPA Speech-Act Ledger + OpenTelemetry Tool Waterfall -->
-    <section class="bottom-grid" aria-label="Live FIPA Envelopes and OpenTelemetry Spans">
+    <!-- 6. Bottom Telemetry Ledger: FIPA Speech-Act Feed + OpenTelemetry Tool Span Waterfall -->
+    <section class="bottom-grid" aria-label="FIPA Message Bus and OpenTelemetry Waterfall">
       <div class="panel-card">
         <div class="panel-header">
-          <div class="panel-title">FIPA-Lite Speech-Act Envelope Ledger (hive/log.jsonl)</div>
-          <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);">request · inform · propose · agree · refuse · done</span>
+          <div class="panel-title">FIPA Speech-Act Envelope Ledger (mesh/events.jsonl)</div>
+          <span class="mono-muted">request · inform · propose · agree · refuse · done</span>
         </div>
         <div id="envelopeFeed" class="envelope-feed"></div>
       </div>
 
       <div class="panel-card">
         <div class="panel-header">
-          <div class="panel-title">OpenTelemetry Tool Span Waterfall (ToolWaterfall.tsx)</div>
-          <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--cth-sky);">Prompt Cache Hit: 79% · Fresh: 21%</span>
+          <div class="panel-title">OpenTelemetry Tool Span Waterfall</div>
+          <span class="mono-sky">Prompt Cache Hit: 79% · Fresh: 21%</span>
         </div>
         <div id="waterfallList" class="waterfall-list"></div>
       </div>
     </section>
   </div>
 
-  <!-- 7. Custom Repo / Crash Forensics Mission Modal -->
+  <!-- 7. Custom Target / Crash Forensics Modal -->
   <div id="customMissionModal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-dialog">
       <div class="panel-header">
-        <div id="modalTitle" class="panel-title">Launch Custom Repo / Crash Forensics Mission</div>
+        <div id="modalTitle" class="panel-title">Dispatch Custom Repository or Binary Forensics Target</div>
         <button type="button" id="closeModalBtn" class="btn">✕ Close</button>
       </div>
       <form id="launchCustomMissionForm" class="modal-body">
         <div class="form-field">
-          <label for="customRepoInput">Target GitHub Repository or Service URL</label>
+          <label for="customRepoInput">Target GitHub Repository or Production Service</label>
           <input id="customRepoInput" class="form-input" type="text" value="github.com/saiprasanth-git/agentic-devops-mesh" required />
         </div>
         <div class="form-field">
           <label for="customTitleInput">Lifecycle Objective / Incident Description</label>
-          <input id="customTitleInput" class="form-input" type="text" value="Harden LangGraph Dev-Reviewer handoff & add Canary SLO auto-rollback" required />
+          <input id="customTitleInput" class="form-input" type="text" value="Harden LangGraph Dev-Verifier handoff &amp; add Canary SLO auto-rollback" required />
         </div>
         <div class="form-field">
-          <label for="customArtifactInput">Target Binary / Bundle / Crash Dump for Creed (REA Inspector)</label>
+          <label for="customArtifactInput">Target Binary / Sourceless Bundle / Crash Dump for CIPHER (Phase 2 Recon)</label>
           <textarea id="customArtifactInput" class="form-textarea">dist/mesh-runner.bundle.js + logs/otel-trace-408.json</textarea>
         </div>
         <div style="display:flex;justify-content:flex-end;gap:var(--space-2);">
-          <button type="submit" class="btn btn-primary">▶ Dispatch to 8-Phase DevOps Floor</button>
+          <button type="submit" class="btn btn-primary">▶ Dispatch to 8-Phase AegisMesh Floor</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- 8. Enterprise Organization Value & ROI Playbook Modal -->
+  <div id="orgRoiModal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="orgRoiTitle">
+    <div class="modal-dialog modal-dialog-wide">
+      <div class="panel-header">
+        <div id="orgRoiTitle" class="panel-title">★ How AegisMesh Transforms an Engineering Organization — Executive &amp; Technical Playbook</div>
+        <button type="button" id="closeOrgRoiBtn" class="btn">✕ Close</button>
+      </div>
+      <div class="modal-body roi-modal-body">
+        <div class="roi-kpi-grid">
+          <div class="roi-stat-card">
+            <div class="roi-stat-val">-68%</div>
+            <div class="roi-stat-lbl">Change Lead Time</div>
+            <div class="roi-stat-sub">From 36m manual triage to 11m 40s autonomous DAG</div>
+          </div>
+          <div class="roi-stat-card">
+            <div class="roi-stat-val">95% Faster</div>
+            <div class="roi-stat-lbl">Incident MTTR</div>
+            <div class="roi-stat-sub">From 47m war-rooms to 2m 15s via Binary Recon + Canary Auto-Rollback</div>
+          </div>
+          <div class="roi-stat-card">
+            <div class="roi-stat-val">0 Leaks</div>
+            <div class="roi-stat-lbl">Protected Path &amp; Secret Breaches</div>
+            <div class="roi-stat-sub">AOT Policy Shield blocks `.env*` &amp; `prod.tf` mutations pre-commit</div>
+          </div>
+          <div class="roi-stat-card">
+            <div class="roi-stat-val">-64%</div>
+            <div class="roi-stat-lbl">Agent Token Spend</div>
+            <div class="roi-stat-sub">79% prompt caching + `/compact` 3-region memory + 6-hop cap</div>
+          </div>
+        </div>
+
+        <div class="roi-columns">
+          <div class="roi-section-card">
+            <h3>1. Solves the #1 Failure Mode of Coding Agents: Blind Patching</h3>
+            <p>Standard AI coding assistants hallucinate fixes when confronted with minified production bundles, third-party SDKs, or native Linux/C++ crash dumps. By placing <strong>CIPHER (Phase 2 Binary &amp; Crash Recon)</strong> before code synthesis, the organization recovers verified ASTs, call graphs, and ELF/Mach-O crash-note ownership before a single line of code is touched.</p>
+          </div>
+          <div class="roi-section-card">
+            <h3>2. Eliminates Agent Livelocks &amp; Runaway Cloud Bills</h3>
+            <p>Multi-agent teams frequently get stuck in Developer-Reviewer ping-pong loops that burn thousands of dollars in API tokens. AegisMesh enforces <strong>FIPA Speech-Act routing (`maxHops=6`)</strong> and a <strong>3-Stage Velocity Circuit Breaker (`STEER → CONSTRAIN → STOP`)</strong> that halts runaway loops in milliseconds.</p>
+          </div>
+          <div class="roi-section-card">
+            <h3>3. Enforces Separation of Duties &amp; Zero-Trust SecOps</h3>
+            <p>No agent can self-approve its own code or push directly to production. <strong>KAEL</strong> writes the diff, <strong>LYRA</strong> performs independent AST verification, <strong>DRAKE</strong> runs 50-way concurrency chaos tests, and <strong>NYX</strong> enforces Ahead-of-Time (AOT) policy gates blocking `.env*` and `prod.tf` edits.</p>
+          </div>
+          <div class="roi-section-card">
+            <h3>4. Preserves Institutional Memory Across Sprints</h3>
+            <p>When engineers or sessions rotate, context is usually lost. AegisMesh indexes every incident postmortem and architecture decision into a searchable <strong>Knowledge Graph</strong> and compacts agent context into <strong>Pinned / Condensed / Recent</strong> memory regions so institutional knowledge compounds over time.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

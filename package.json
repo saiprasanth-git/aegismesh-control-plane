@@ -1,9 +1,9 @@
 {
-  "name": "munder-difflin-devops-mesh",
+  "name": "aegismesh-control-plane",
   "version": "1.0.0",
+  "description": "AEGIS // MESH — Autonomous 8-Phase DevOps & Binary Forensics Control Plane",
   "private": true,
-  "description": "Munder Difflin x REA: 8-Phase Agentic DevOps Mesh Command Center",
   "scripts": {
-    "start": "serve . -l 3000 --no-clipboard"
+    "start": "npx serve -l 3000 ."
   }
 }

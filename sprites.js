@@ -1,474 +1,310 @@
 /* ============================================================================
-   MUNDER DIFFLIN PROCEDURAL PIXEL-ART ENGINE + BFS PATHFINDER + FLOOR SCENE
-   Reverse-Engineered & Ported from HarnessMD/munder-difflin:
-   - src/renderer/src/scene/office/portraitArt.ts (18x28 bust & 18x32 walk frames)
-   - src/renderer/src/scene/office/pathfinding.ts (BFS grid pathfinder)
-   - src/renderer/src/scene/office/MessageEnvelope.ts (FIPA speech-act arc envelopes)
+   AEGIS // MESH — HIGH-DETAIL PIXEL-ART CYBER-ENGINEER SPRITE & FLOOR ENGINE
+   Original 8-Agent Autonomous DevOps Cast (20x32 Pixel Grid) + BFS Pathfinder
    ============================================================================ */
 
 (function () {
-  const PORTRAIT_W = 18;
+  const PORTRAIT_W = 20;
   const PORTRAIT_H = 28;
-  const SCENE_W = 18;
+  const SCENE_W = 20;
   const SCENE_H = 32;
-  const OUTLINE = [38, 34, 46];
-  const HX0 = 4, HX1 = 13;
 
-  let CUR_W = PORTRAIT_W, CUR_H = PORTRAIT_H;
+  // Palette Legend:
+  // . = transparent
+  // O = #090D16 (deep outline)
+  // S = skin base, s = skin shadow
+  // H = hair base, h = hair highlight
+  // J = primary jacket/suit, j = jacket shadow/trim
+  // A = role accent (visor, LED, trim, tie/core), a = bright accent glow
+  // U = undershirt / chest plate (#E2E8F0)
+  // P = pants (#1E293B), B = boots (#0F172A)
+  // M = metallic headset / cyber-gear (#94A3B8)
 
-  const clamp = (v) => (v < 0 ? 0 : v > 255 ? 255 : Math.round(v));
-  function shades(rgb, dl = 1.22, dd = 0.68) {
+  const AGENT_PALETTES = {
+    vex: {
+      // P1: Lead Architect & DAG Planner (Electric Cyan Visor + Navy Commander Coat)
+      O: '#070A12',
+      S: '#F1C6A7', s: '#D49E7A',
+      H: '#1E293B', h: '#475569',
+      J: '#1E3A5F', j: '#0F233D',
+      A: '#38BDF8', a: '#BAE6FD',
+      U: '#F8FAFC', P: '#0F172A', B: '#090D16', M: '#94A3B8'
+    },
+    cipher: {
+      // P2: Binary & Crash Forensics (Neon Violet Neural Goggles + Obsidian Trench)
+      O: '#070A12',
+      S: '#E5B899', s: '#C6906E',
+      H: '#E2E8F0', h: '#94A3B8',
+      J: '#2E1F47', j: '#1A112B',
+      A: '#A855F7', a: '#E9D5FF',
+      U: '#334155', P: '#1E1B2E', B: '#090D16', M: '#CBD5E1'
+    },
+    kael: {
+      // P3: Code & IaC Synthesizer (Amber Cyber-Hoodie + Holo-Gloves)
+      O: '#070A12',
+      S: '#D9A17C', s: '#B87D58',
+      H: '#18181B', h: '#3F3F46',
+      J: '#B45309', j: '#78350F',
+      A: '#F59E0B', a: '#FDE68A',
+      U: '#1E293B', P: '#1E293B', B: '#090D16', M: '#94A3B8'
+    },
+    lyra: {
+      // P4: AST & PR Verifier (Emerald Comms Headset + Slate Tactical Blazer)
+      O: '#070A12',
+      S: '#F5CBA7', s: '#D9A47C',
+      H: '#5B21B6', h: '#7C3AED',
+      J: '#065F46', j: '#064E3B',
+      A: '#10B981', a: '#A7F3D0',
+      U: '#F1F5F9', P: '#1E293B', B: '#090D16', M: '#CBD5E1'
+    },
+    drake: {
+      // P5: Concurrency & Chaos QA (Crimson-Orange Hazard Rig + Visor)
+      O: '#070A12',
+      S: '#C68B59', s: '#9C6639',
+      H: '#27272A', h: '#52525B',
+      J: '#9F1239', j: '#881337',
+      A: '#FB7185', a: '#FECDD3',
+      U: '#18181B', P: '#27272A', B: '#090D16', M: '#94A3B8'
+    },
+    nyx: {
+      // P6: Zero-Trust Guardrail Warden (Indigo-Silver Sentinel Armor + Shield Crest)
+      O: '#070A12',
+      S: '#F3D1B8', s: '#D5A98A',
+      H: '#0F172A', h: '#38BDF8',
+      J: '#312E81', j: '#1E1B4B',
+      A: '#818CF8', a: '#E0E7FF',
+      U: '#E2E8F0', P: '#1E1B4B', B: '#090D16', M: '#E2E8F0'
+    },
+    orion: {
+      // P7: Progressive Canary & FinOps (Teal-Gold Flight Director Jacket)
+      O: '#070A12',
+      S: '#8D5524', s: '#6B3E17',
+      H: '#090D16', h: '#334155',
+      J: '#115E59', j: '#134E4A',
+      A: '#2DD4BF', a: '#99F6E4',
+      U: '#F8FAFC', P: '#0F172A', B: '#090D16', M: '#FBBF24'
+    },
+    sora: {
+      // P8: OpenTelemetry SRE & Feedback Loop (Sky-Mint Telemetry Visor + Ops Rig)
+      O: '#070A12',
+      S: '#EAC09E', s: '#C99874',
+      H: '#0284C7', h: '#38BDF8',
+      J: '#1E293B', j: '#0F172A',
+      A: '#34D399', a: '#D1FAE5',
+      U: '#0F172A', P: '#1E293B', B: '#090D16', M: '#38BDF8'
+    }
+  };
+
+  // Build 20x28 high-clarity cyber-engineer portrait grid
+  function buildPortraitGrid(agentId) {
+    const hasVisor = ['vex', 'cipher', 'drake', 'sora'].includes(agentId);
+    const hasHeadset = ['lyra', 'nyx', 'orion', 'kael'].includes(agentId);
+    const longHair = ['lyra', 'nyx', 'sora'].includes(agentId);
+
+    const rows = [
+      '....................',
+      '.....OOOOOOOOOO.....',
+      '....OHHHHHHHHHhO....',
+      '...OHHHHHHHHHHhhO...',
+      '...OHhHHHHHHHHhhO...',
+      hasHeadset
+        ? '..OMSSSSSSSSSSSSMO..'
+        : '...OSSSSSSSSSSSSO...',
+      hasVisor
+        ? '..OOAAAAAAAAAAAAOO..'
+        : '..OMSSOOSssOOSSSMO..',
+      hasVisor
+        ? '..OAAaAAAAAAAAaAAO..'
+        : '..OMSSOOSssOOSSSMO..',
+      longHair
+        ? '..OHSSSSSSSSSSSSHO..'
+        : '...OSSSSSSSSSSSSO...',
+      longHair
+        ? '..OHSSsSSSSSSsSSHO..'
+        : '...OSSsSSSSSSsSSO...',
+      longHair
+        ? '..OHSSSSOOOOSSSSHO..'
+        : '...OSSSSOOOOSSSSO...',
+      '....OssssssssssO....',
+      '.....OOOSSSSOOO.....',
+      '...OOOOOUUUUOOOOO...',
+      '..OJJJJJUUUUJJJJJO..',
+      '.OJJjJJJUAUUJJJjJJO.',
+      '.OJJjJJJUUUUJJJjJJO.',
+      '.OJJjJJJUAUUJJJjJJO.',
+      '.OJJAAJJUUUUJJAAJJO.',
+      '.OJJaaJJUUUUJJaaJJO.',
+      '.OJJJJJUUUUUUJJJJJO.',
+      '.OJJjJJJJJJJJJJjJJO.',
+      '.OSSSSJJAAAAJJSSSSO.',
+      '.OssssJJaaaaJJssssO.',
+      '..OOOOJJJJJJJJOOOO..',
+      '.....OPPPPPPPPO.....',
+      '.....OPPP..PPPO.....',
+      '.....OOOO..OOOO.....'
+    ];
+    return rows;
+  }
+
+  // Build 3-frame 20x32 full-body scene sprites (Idle + Walk A + Walk B)
+  function buildSceneFrames(agentId) {
+    const base24 = buildPortraitGrid(agentId).slice(0, 24);
+
+    const legsIdle = [
+      '....OOJJJJJJJJOO....',
+      '....OPPPPPPPPPPO....',
+      '....OPPPP..PPPPO....',
+      '....OPPPP..PPPPO....',
+      '....OPPPP..PPPPO....',
+      '....OBBBB..BBBBO....',
+      '....OBBBB..BBBBO....',
+      '....OOOOO..OOOOO....'
+    ];
+
+    const legsStepA = [
+      '....OOJJJJJJJJOO....',
+      '....OPPPPPPPPPPO....',
+      '...OPPPP....PPPPO...',
+      '...OPPPP....PPPPO...',
+      '...OBBBB....BBBBO...',
+      '...OOOOO....BBBBO...',
+      '............OOOOO...',
+      '....................'
+    ];
+
+    const legsStepB = [
+      '....OOJJJJJJJJOO....',
+      '....OPPPPPPPPPPO....',
+      '...OPPPP....PPPPO...',
+      '...OPPPP....PPPPO...',
+      '...OBBBB....BBBBO...',
+      '...OBBBB....OOOOO...',
+      '...OOOOO............',
+      '....................'
+    ];
+
     return [
-      [clamp(rgb[0] * dl), clamp(rgb[1] * dl), clamp(rgb[2] * dl)],
-      [rgb[0], rgb[1], rgb[2]],
-      [clamp(rgb[0] * dd), clamp(rgb[1] * dd), clamp(rgb[2] * dd)],
+      base24.concat(legsIdle),
+      base24.concat(legsStepA),
+      base24.concat(legsStepB)
     ];
   }
 
-  function set(buf, x, y, c, a = 255) {
-    if (x < 0 || x >= CUR_W || y < 0 || y >= CUR_H) return;
-    const i = (y * CUR_W + x) * 4;
-    buf[i] = c[0]; buf[i + 1] = c[1]; buf[i + 2] = c[2]; buf[i + 3] = a;
-  }
-  function alphaAt(buf, x, y) {
-    if (x < 0 || x >= CUR_W || y < 0 || y >= CUR_H) return 0;
-    return buf[(y * CUR_W + x) * 4 + 3];
-  }
-  function rgbAt(buf, x, y) {
-    const i = (y * CUR_W + x) * 4;
-    return [buf[i], buf[i + 1], buf[i + 2]];
-  }
-  function eq(a, b) {
-    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
-  }
-  function rect(buf, x0, y0, x1, y1, c) {
-    for (let y = y0; y <= y1; y++) {
-      for (let x = x0; x <= x1; x++) set(buf, x, y, c);
-    }
-  }
-
-  const SKIN = {
-    light: { hi: [255, 221, 189], base: [247, 201, 170], sh: [212, 158, 126], line: [168, 112, 82] },
-    tan:   { hi: [232, 182, 136], base: [214, 162, 116], sh: [176, 126, 86],  line: [138, 92, 60] },
-    brown: { hi: [180, 130, 94],  base: [158, 112, 78],  sh: [124, 86, 58],   line: [90, 60, 40] },
-    dark:  { hi: [142, 98, 70],   base: [120, 80, 56],   sh: [94, 62, 42],    line: [64, 42, 28] },
-  };
-
-  function drawHead(buf, skin) {
-    const s = SKIN[skin];
-    for (let y = 4; y <= 16; y++) {
-      for (let x = HX0; x <= HX1; x++) {
-        if (((x === HX0 || x === HX1) && (y === 4 || y === 5 || y === 16)) || ((x === 5 || x === 12) && y === 4)) continue;
-        set(buf, x, y, s.base);
-      }
-    }
-    for (let y = 6; y < 12; y++) set(buf, 5, y, s.hi);
-    set(buf, 6, 5, s.hi); set(buf, 7, 5, s.hi);
-    for (let y = 6; y < 15; y++) set(buf, 12, y, s.sh);
-    for (const x of [7, 8, 9, 10, 11]) set(buf, x, 16, s.sh);
-    for (const ex of [HX0 - 1, HX1 + 1]) {
-      set(buf, ex, 9, s.base); set(buf, ex, 10, s.base); set(buf, ex, 11, s.sh);
-    }
-    rect(buf, 7, 17, 10, 18, s.sh);
-    rect(buf, 7, 17, 9, 17, s.base);
-  }
-
-  function drawHeavyFace(buf, skin) {
-    const s = SKIN[skin];
-    for (let y = 11; y <= 15; y++) {
-      set(buf, HX0 - 1, y, s.base); set(buf, HX1 + 1, y, s.base);
-    }
-    set(buf, HX0 - 1, 15, s.sh); set(buf, HX1 + 1, 15, s.sh);
-    for (const x of [5, 6, 11, 12]) set(buf, x, 16, s.base);
-    rect(buf, 6, 17, 11, 18, s.base);
-    for (const x of [6, 7, 8, 9, 10, 11]) set(buf, x, 18, s.sh);
-    set(buf, 7, 17, s.sh); set(buf, 10, 17, s.sh);
-  }
-
-  function drawFace(buf, skin, brow, mouth, blush, lashes = false) {
-    const s = SKIN[skin];
-    const white = [250, 248, 244], pup = [46, 38, 42];
-    for (const [a, b, p] of [[5, 6, 6], [10, 11, 10]]) {
-      set(buf, a, 9, white); set(buf, b, 9, white); set(buf, p, 9, pup);
-    }
-    if (lashes) {
-      const lash = [54, 40, 48], glint = [252, 250, 248];
-      for (const x of [5, 6, 10, 11]) set(buf, x, 8, lash);
-      set(buf, 4, 8, lash); set(buf, 12, 8, lash);
-      set(buf, 5, 9, glint); set(buf, 10, 9, glint);
-    }
-    if (brow === 'flat') for (const x of [5, 6, 10, 11]) set(buf, x, 7, s.line);
-    else if (brow === 'angry') { set(buf, 5, 8, s.line); set(buf, 6, 7, s.line); set(buf, 10, 7, s.line); set(buf, 11, 8, s.line); }
-    else if (brow === 'raised') for (const x of [5, 6, 10, 11]) set(buf, x, 6, s.line);
-    else if (brow === 'soft') { for (const x of [5, 11]) set(buf, x, 7, s.line); for (const x of [6, 10]) set(buf, x, 7, s.sh); }
-    set(buf, 8, 11, s.sh); set(buf, 8, 12, s.sh); set(buf, 7, 12, s.sh);
-    const mc = [158, 86, 80];
-    const mouths = {
-      neutral: [[7, 14], [8, 14], [9, 14], [10, 14]],
-      smile: [[7, 14], [8, 14], [9, 14], [10, 14], [6, 13], [11, 13]],
-      frown: [[7, 15], [8, 15], [9, 15], [10, 15], [6, 14], [11, 14]],
-      grin: [[7, 14], [8, 14], [9, 14], [10, 14], [7, 13], [8, 13], [9, 13], [10, 13], [6, 13], [11, 13]],
-    };
-    for (const [x, y] of mouths[mouth] || mouths.neutral) set(buf, x, y, mc);
-    if (blush) for (const x of [5, 12]) set(buf, x, 12, [235, 150, 140], 140);
-  }
-
-  const HAIR_FNS = {
-    styleShort(buf, color, skinBase, a) {
-      const [hi, base, sh] = shades(color);
-      const part = a.part ?? 'L', recede = a.recede ?? 0;
-      rect(buf, HX0, 2, HX1, 4, base);
-      for (let x = HX0 - 1; x <= HX1 + 1; x++) set(buf, x, 3, base);
-      rect(buf, HX0 - 1, 4, HX1 + 1, 5, base);
-      for (let y = 6; y < 9; y++) { set(buf, HX0 - 1, y, base); set(buf, HX0, y, base); set(buf, HX1, y, base); set(buf, HX1 + 1, y, base); }
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 5, base);
-      if (recede) {
-        for (let y = 3; y < 6; y++) for (let x = 6; x < 12; x++) if (eq(rgbAt(buf, x, y), base)) set(buf, x, y, skinBase);
-        set(buf, 8, 5, base);
-      }
-      const hx = part === 'L' ? 6 : 11;
-      for (let y = 2; y < 6; y++) set(buf, hx, y, sh);
-      for (let x = HX0; x < hx; x++) if (alphaAt(buf, x, 3)) set(buf, x, 3, hi);
-      for (let x = HX0; x <= HX1; x++) if (alphaAt(buf, x, 2)) set(buf, x, 2, hi);
-    },
-    styleFloppy(buf, color) {
-      const [hi, base] = shades(color);
-      rect(buf, HX0, 2, HX1, 4, base);
-      for (let x = HX0 - 1; x <= HX1 + 1; x++) set(buf, x, 3, base);
-      rect(buf, HX0 - 1, 4, HX1 + 1, 5, base);
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 5, base);
-      for (let x = 6; x <= 12; x++) set(buf, x, 6, base);
-      set(buf, 9, 7, base); set(buf, 10, 7, base); set(buf, 11, 7, base);
-      for (let y = 6; y < 9; y++) { set(buf, HX0 - 1, y, base); set(buf, HX0, y, base); set(buf, HX1, y, base); set(buf, HX1 + 1, y, base); }
-      for (let x = HX0; x <= HX1; x++) if (alphaAt(buf, x, 2)) set(buf, x, 2, hi);
-      for (const x of [7, 8, 9]) set(buf, x, 6, hi);
-    },
-    styleFrame(buf, color, skinBase, a) {
-      const [hi, base, sh] = shades(color);
-      const length = a.length ?? 17, vol = a.vol ?? 1;
-      rect(buf, HX0 - 1, 2, HX1 + 1, 5, base);
-      for (let x = HX0 - 1; x <= HX1 + 1; x++) set(buf, x, 3, base);
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 5, base);
-      for (let x = 6; x < 12; x++) set(buf, x, 6, base);
-      set(buf, 8, 6, skinBase); set(buf, 9, 6, skinBase);
-      for (let y = 6; y <= length; y++) {
-        for (let dx = 0; dx < vol; dx++) { set(buf, HX0 - 1 - dx, y, base); set(buf, HX1 + 1 + dx, y, base); }
-        set(buf, HX0, y, base); set(buf, HX1, y, base);
-      }
-      for (let x = HX0 - 1; x < HX0 + 1; x++) set(buf, x, length + 1, base);
-      for (let x = HX1; x < HX1 + 2; x++) set(buf, x, length + 1, base);
-      for (let y = 2; y < 6; y++) if (alphaAt(buf, HX1, y)) set(buf, HX1, y, sh);
-      for (let x = HX0; x < 9; x++) if (alphaAt(buf, x, 2)) set(buf, x, 2, hi);
-    },
-    styleBun(buf, color, skinBase) {
-      const [hi, base] = shades(color);
-      rect(buf, HX0, 3, HX1, 5, base);
-      for (let x = HX0 - 1; x <= HX1 + 1; x++) set(buf, x, 4, base);
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 5, base);
-      for (let x = 6; x < 12; x++) set(buf, x, 6, base);
-      set(buf, 8, 6, skinBase); set(buf, 9, 6, skinBase);
-      for (let y = 6; y < 9; y++) { set(buf, HX0, y, base); set(buf, HX1, y, base); }
-      rect(buf, 7, 1, 10, 2, base);
-      for (let x = HX0; x <= HX1; x++) if (alphaAt(buf, x, 3)) set(buf, x, 3, hi);
-    },
-    styleRecede(buf, color, skinBase) {
-      const [, base, sh] = shades(color);
-      for (let y = 4; y < 10; y++) { set(buf, HX0 - 1, y, base); set(buf, HX0, y, base); set(buf, HX1, y, base); set(buf, HX1 + 1, y, base); }
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 4, base);
-      for (let x = HX0 + 1; x < HX1; x++) set(buf, x, 5, base);
-      for (let y = 5; y < 9; y++) for (let x = 6; x < 12; x++) if (eq(rgbAt(buf, x, y), base)) set(buf, x, y, skinBase);
-      for (let x = HX0; x <= HX1; x++) if (alphaAt(buf, x, 4)) set(buf, x, 4, sh);
-    },
-    styleSpiky(buf, color, skinBase) {
-      const [hi, base] = shades(color);
-      rect(buf, HX0, 3, HX1, 5, base);
-      for (let x = HX0 - 1; x <= HX1 + 1; x++) set(buf, x, 4, base);
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 5, base);
-      const spikes = [[5, 2], [7, 1], [9, 2], [11, 1], [6, 2], [8, 2], [10, 2], [12, 2]];
-      for (const [x, y] of spikes) set(buf, x, y, base);
-      for (let x = 6; x < 12; x++) set(buf, x, 6, base);
-      set(buf, 8, 6, skinBase); set(buf, 9, 6, skinBase);
-      for (let y = 6; y < 8; y++) { set(buf, HX0, y, base); set(buf, HX1, y, base); }
-      for (const [x, y] of spikes) set(buf, x, y, hi);
-    },
-    styleBald(buf, color, skinBase, a) {
-      const [shi, sbase, ssh] = shades(skinBase, 1.1, 0.82);
-      for (let x = 6; x <= 11; x++) set(buf, x, 2, sbase);
-      for (let x = 5; x <= 12; x++) set(buf, x, 3, sbase);
-      for (let x = HX0; x <= HX1; x++) set(buf, x, 4, sbase);
-      for (const x of [7, 8, 9]) set(buf, x, 2, shi);
-      set(buf, 6, 3, shi); set(buf, 7, 3, shi);
-      set(buf, 5, 3, ssh); set(buf, 12, 3, ssh); set(buf, HX1, 4, ssh);
-      const [, base, sh] = shades(color);
-      const top = a.recede ? 8 : 6;
-      for (let y = top; y <= 10; y++) {
-        set(buf, HX0 - 1, y, base); set(buf, HX0, y, base);
-        set(buf, HX1, y, base); set(buf, HX1 + 1, y, base);
-      }
-      for (let y = top; y <= 10; y++) { set(buf, HX0 - 1, y, sh); set(buf, HX1 + 1, y, sh); }
-    }
-  };
-
-  function drawFacial(buf, kind, color) {
-    const [, base, sh] = shades(color);
-    if (kind === 'mustache') {
-      for (const x of [6, 7, 8, 9, 10]) set(buf, x, 13, base);
-      set(buf, 6, 12, base); set(buf, 10, 12, base);
-    } else if (kind === 'mustacheSm') {
-      for (const x of [7, 8, 9]) set(buf, x, 13, base);
-    } else if (kind === 'stubble') {
-      for (const [x, y] of [[5, 14], [6, 15], [7, 15], [8, 15], [9, 15], [10, 15], [11, 14], [12, 13], [4, 13], [5, 15], [10, 15]]) {
-        set(buf, x, y, sh, 150);
-      }
-    }
-  }
-
-  function drawGlasses(buf) {
-    const frame = [60, 54, 62];
-    const glint = [236, 240, 246];
-    for (const x of [5, 6]) { set(buf, x, 8, frame); set(buf, x, 10, frame); }
-    set(buf, 4, 9, frame); set(buf, 7, 9, frame);
-    set(buf, 4, 8, frame); set(buf, 7, 8, frame);
-    for (const x of [10, 11]) { set(buf, x, 8, frame); set(buf, x, 10, frame); }
-    set(buf, 9, 9, frame); set(buf, 12, 9, frame);
-    set(buf, 9, 8, frame); set(buf, 12, 8, frame);
-    set(buf, 8, 8, frame);
-    set(buf, 3, 9, frame); set(buf, 13, 9, frame);
-    set(buf, 4, 8, glint); set(buf, 9, 8, glint);
-  }
-
-  function bodyShape(buf, col, heavy = false) {
-    const [, base, sh] = shades(col);
-    const rows = heavy
-      ? [[19, 5, 12], [20, 3, 14], [21, 2, 15], [22, 1, 16], [23, 1, 16], [24, 0, 17], [25, 0, 17], [26, 0, 17], [27, 0, 17]]
-      : [[19, 6, 11], [20, 4, 13], [21, 3, 14], [22, 2, 15], [23, 2, 15], [24, 1, 16], [25, 1, 16], [26, 1, 16], [27, 1, 16]];
-    for (const [y, a, b] of rows) rect(buf, a, y, b, y, base);
-    const [lo, hi] = heavy ? [1, 16] : [2, 15];
-    for (let y = 22; y < 28; y++) { set(buf, lo, y, sh); set(buf, hi, y, sh); }
-  }
-
-  function drawClothing(buf, kind, c1, c2, tie, skin, heavy = false) {
-    const [hi, base, sh] = shades(c1);
-    bodyShape(buf, c1, heavy);
-    if (kind === 'suit') {
-      const white = [238, 238, 236];
-      for (const [x, y] of [[8, 19], [9, 19], [7, 20], [8, 20], [9, 20], [10, 20], [8, 21], [9, 21]]) set(buf, x, y, white);
-      for (const [x, y] of [[6, 20], [7, 21], [11, 20], [10, 21], [6, 21], [11, 21]]) set(buf, x, y, sh);
-      if (tie) { for (let y = 20; y < 26; y++) { set(buf, 8, y, tie); set(buf, 9, y, tie); } set(buf, 8, 20, shades(tie)[0]); }
-      else for (let y = 22; y < 26; y++) { set(buf, 8, y, white); set(buf, 9, y, white); }
-    } else if (kind === 'dressshirt') {
-      for (const [x, y] of [[6, 19], [7, 19], [10, 19], [11, 19], [7, 20], [10, 20]]) set(buf, x, y, sh);
-      for (let y = 20; y < 27; y += 2) set(buf, 8, y, sh);
-      if (tie) for (let y = 19; y < 26; y++) { set(buf, 8, y, tie); set(buf, 9, y, tie); }
-    } else if (kind === 'polo') {
-      for (const [x, y] of [[6, 19], [7, 19], [10, 19], [11, 19]]) set(buf, x, y, hi);
-      set(buf, 8, 20, sh); set(buf, 8, 22, sh);
-    } else if (kind === 'cardigan') {
-      const inner = c2 ? shades(c2)[1] : [235, 233, 226];
-      for (let y = 19; y < 27; y++) { set(buf, 8, y, inner); set(buf, 9, y, inner); }
-      for (const [x, y] of [[6, 19], [7, 19], [10, 19], [11, 19]]) set(buf, x, y, sh);
-    } else if (kind === 'sweater') {
-      for (const [x, y] of [[6, 19], [7, 19], [8, 19], [9, 19], [10, 19], [11, 19]]) set(buf, x, y, sh);
-    }
-  }
-
-  function collarNeck(buf, skin) {
-    rect(buf, 7, 18, 10, 19, SKIN[skin].sh);
-  }
-
-  const SHOE = [44, 40, 48];
-  function drawSceneLegs(buf, pants, phase) {
-    const [, base, sh] = shades(pants);
-    for (const [lx0, lx1] of [[5, 7], [10, 12]]) {
-      rect(buf, lx0, 25, lx1, 30, base);
-      for (let y = 25; y <= 30; y++) set(buf, lx1, y, sh);
-    }
-    const leftLow = phase !== 1, rightLow = phase !== 2;
-    rect(buf, 5, leftLow ? 31 : 30, 7, leftLow ? 31 : 30, SHOE);
-    rect(buf, 10, rightLow ? 31 : 30, 12, rightLow ? 31 : 30, SHOE);
-  }
-
-  function drawSceneTorso(buf, r, back) {
-    const [hi, base, sh] = shades(r.c1);
-    if (r.heavy) {
-      rect(buf, 3, 18, 14, 18, base);
-      rect(buf, 2, 19, 15, 19, base);
-      rect(buf, 2, 20, 15, 24, base);
-      for (let y = 20; y <= 24; y++) { set(buf, 2, y, sh); set(buf, 15, y, sh); set(buf, 14, y, sh); }
-    } else {
-      rect(buf, 4, 18, 13, 18, base);
-      rect(buf, 3, 19, 14, 19, base);
-      rect(buf, 4, 20, 13, 24, base);
-      for (let y = 20; y <= 24; y++) { set(buf, 3, y, sh); set(buf, 14, y, sh); set(buf, 13, y, sh); }
-    }
-    if (back) {
-      rect(buf, 6, 18, 11, 18, sh);
-      for (let y = 19; y <= 24; y++) set(buf, 8, y, sh);
-      return;
-    }
-    if (r.cloth === 'suit') {
-      const white = [238, 238, 236];
-      for (const [x, y] of [[8, 18], [9, 18], [7, 19], [8, 19], [9, 19], [10, 19], [8, 20], [9, 20]]) set(buf, x, y, white);
-      for (const [x, y] of [[6, 19], [7, 20], [11, 19], [10, 20]]) set(buf, x, y, sh);
-      if (r.tie) { for (let y = 19; y <= 24; y++) { set(buf, 8, y, r.tie); set(buf, 9, y, r.tie); } set(buf, 8, 19, shades(r.tie)[0]); }
-    } else if (r.cloth === 'dressshirt') {
-      for (const [x, y] of [[6, 18], [7, 18], [10, 18], [11, 18], [7, 19], [10, 19]]) set(buf, x, y, sh);
-      if (r.tie) for (let y = 18; y <= 24; y++) { set(buf, 8, y, r.tie); set(buf, 9, y, r.tie); }
-      else for (let y = 20; y <= 24; y += 2) set(buf, 8, y, sh);
-    } else if (r.cloth === 'cardigan') {
-      const inner = r.c2 ? shades(r.c2)[1] : [235, 233, 226];
-      for (let y = 18; y <= 24; y++) { set(buf, 8, y, inner); set(buf, 9, y, inner); }
-      for (const [x, y] of [[6, 18], [7, 18], [10, 18], [11, 18]]) set(buf, x, y, sh);
-    } else if (r.cloth === 'sweater') {
-      for (const [x, y] of [[6, 18], [7, 18], [8, 18], [9, 18], [10, 18], [11, 18]]) set(buf, x, y, sh);
-    }
-  }
-
-  function outlinePass(buf) {
-    const pts = [];
-    for (let y = 0; y < CUR_H; y++) {
-      for (let x = 0; x < CUR_W; x++) {
-        if (alphaAt(buf, x, y) !== 0) continue;
-        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-          if (alphaAt(buf, x + dx, y + dy) === 255) { pts.push([x, y]); break; }
-        }
-      }
-    }
-    for (const [x, y] of pts) set(buf, x, y, OUTLINE);
-  }
-
-  const RECIPES = {
-    michael:  { skin: 'light', hairc: [58, 42, 28],   hair: 'styleShort',  hairargs: { part: 'L' }, cloth: 'suit', c1: [58, 63, 74], tie: [170, 58, 58], brow: 'flat', mouth: 'smile' },
-    creed:    { skin: 'light', hairc: [170, 166, 156], hair: 'styleBald',   cloth: 'dressshirt', c1: [126, 130, 96], facial: 'stubble', brow: 'flat', mouth: 'neutral' },
-    ryan:     { skin: 'light', hairc: [42, 32, 24],   hair: 'styleSpiky',  cloth: 'suit', c1: [58, 58, 68], tie: [40, 40, 50], brow: 'flat', mouth: 'neutral' },
-    jim:      { skin: 'light', hairc: [92, 60, 34],   hair: 'styleFloppy', cloth: 'dressshirt', c1: [172, 196, 224], tie: [120, 130, 150], brow: 'flat', mouth: 'smile' },
-    dwight:   { skin: 'light', hairc: [64, 48, 28],   hair: 'styleShort',  hairargs: { part: 'L', recede: 1 }, cloth: 'dressshirt', c1: [184, 155, 62], tie: [120, 82, 46], glasses: true, brow: 'angry', mouth: 'neutral' },
-    angela:   { skin: 'light', hairc: [186, 154, 90], hair: 'styleBun',    cloth: 'cardigan', c1: [150, 146, 170], c2: [235, 233, 226], brow: 'angry', mouth: 'frown', lashes: true },
-    oscar:    { skin: 'tan',   hairc: [28, 22, 18],   hair: 'styleShort',  hairargs: { part: 'L' }, cloth: 'sweater', c1: [122, 60, 74], brow: 'flat', mouth: 'smile' },
-    stanley:  { skin: 'dark',  hairc: [60, 54, 48],   hair: 'styleRecede', cloth: 'dressshirt', c1: [150, 120, 86], tie: [120, 78, 52], glasses: true, facial: 'mustache', brow: 'flat', mouth: 'neutral', heavy: true },
-    pam:      { skin: 'light', hairc: [120, 76, 42],  hair: 'styleFrame',  hairargs: { length: 18, vol: 2 }, cloth: 'cardigan', c1: [236, 174, 192], c2: [244, 242, 238], brow: 'soft', mouth: 'smile', blush: true, lashes: true },
-  };
-
-  function drawHeadGroup(buf, r) {
-    const skinBase = SKIN[r.skin].base;
-    drawHead(buf, r.skin);
-    if (r.heavy) drawHeavyFace(buf, r.skin);
-    drawFace(buf, r.skin, r.brow ?? 'flat', r.mouth ?? 'neutral', r.blush ?? false, r.lashes ?? false);
-    if (r.facial) drawFacial(buf, r.facial, r.hairc);
-    HAIR_FNS[r.hair](buf, r.hairc, skinBase, r.hairargs ?? {});
-    if (r.glasses) drawGlasses(buf);
-  }
-
-  function defaultPants(r) {
-    return r.cloth === 'suit' ? shades(r.c1)[2] : [54, 56, 70];
-  }
-
-  function composePortrait(r) {
-    CUR_W = PORTRAIT_W; CUR_H = PORTRAIT_H;
-    const buf = new Uint8ClampedArray(PORTRAIT_W * PORTRAIT_H * 4);
-    drawClothing(buf, r.cloth, r.c1, r.c2, r.tie, r.skin, r.heavy ?? false);
-    collarNeck(buf, r.skin);
-    drawHeadGroup(buf, r);
-    outlinePass(buf);
-    return buf;
-  }
-
-  function composeScene(r, phase) {
-    CUR_W = SCENE_W; CUR_H = SCENE_H;
-    const buf = new Uint8ClampedArray(SCENE_W * SCENE_H * 4);
-    drawSceneTorso(buf, r, false);
-    drawSceneLegs(buf, defaultPants(r), phase);
-    drawHeadGroup(buf, r);
-    outlinePass(buf);
-    return buf;
-  }
-
-  const portraitCanvasCache = new Map();
-  const sceneCanvasCache = new Map();
-
-  function bufToCanvas(buf, w, h) {
+  function renderGridToCanvas(grid, palette, w, h) {
     const c = document.createElement('canvas');
-    c.width = w; c.height = h;
+    c.width = w;
+    c.height = h;
     const ctx = c.getContext('2d');
-    const img = ctx.createImageData(w, h);
-    img.data.set(buf);
-    ctx.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+
+    for (let y = 0; y < h; y++) {
+      const row = grid[y] || '';
+      for (let x = 0; x < w; x++) {
+        const ch = row[x];
+        if (!ch || ch === '.') continue;
+        const hex = palette[ch];
+        if (!hex) continue;
+        ctx.fillStyle = hex;
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
     return c;
   }
 
-  function getPortraitCanvas(name) {
-    if (!portraitCanvasCache.has(name)) {
-      const r = RECIPES[name] || RECIPES.jim;
-      portraitCanvasCache.set(name, bufToCanvas(composePortrait(r), PORTRAIT_W, PORTRAIT_H));
+  const portraitCache = {};
+  const sceneFrameCache = {};
+
+  function getPortraitCanvas(agentId) {
+    const key = AGENT_PALETTES[agentId] ? agentId : 'vex';
+    if (!portraitCache[key]) {
+      portraitCache[key] = renderGridToCanvas(
+        buildPortraitGrid(key),
+        AGENT_PALETTES[key],
+        PORTRAIT_W,
+        PORTRAIT_H
+      );
     }
-    return portraitCanvasCache.get(name);
+    return portraitCache[key];
   }
 
-  function getSceneFrames(name) {
-    if (!sceneCanvasCache.has(name)) {
-      const r = RECIPES[name] || RECIPES.jim;
-      sceneCanvasCache.set(name, [
-        bufToCanvas(composeScene(r, 0), SCENE_W, SCENE_H),
-        bufToCanvas(composeScene(r, 1), SCENE_W, SCENE_H),
-        bufToCanvas(composeScene(r, 2), SCENE_W, SCENE_H),
-      ]);
+  function getSceneFrames(agentId) {
+    const key = AGENT_PALETTES[agentId] ? agentId : 'vex';
+    if (!sceneFrameCache[key]) {
+      const grids = buildSceneFrames(key);
+      sceneFrameCache[key] = grids.map((g) =>
+        renderGridToCanvas(g, AGENT_PALETTES[key], SCENE_W, SCENE_H)
+      );
     }
-    return sceneCanvasCache.get(name);
+    return sceneFrameCache[key];
   }
 
-  function paintPortraitToCanvas(canvasEl, name) {
-    if (!canvasEl) return;
-    const src = getPortraitCanvas(name);
-    canvasEl.width = PORTRAIT_W * 2;
-    canvasEl.height = PORTRAIT_H * 2;
-    const ctx = canvasEl.getContext('2d');
+  function paintPortraitToCanvas(targetCanvas, agentId) {
+    if (!targetCanvas) return;
+    const src = getPortraitCanvas(agentId);
+    const ctx = targetCanvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-    ctx.drawImage(src, 0, 0, PORTRAIT_W, PORTRAIT_H, 0, 0, canvasEl.width, canvasEl.height);
+    ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+    ctx.drawImage(src, 0, 0, PORTRAIT_W, PORTRAIT_H, 0, 0, targetCanvas.width, targetCanvas.height);
   }
 
-  // BFS Pathfinding on 24x14 tile grid
-  function findPath(gridW, gridH, blockedSet, start, goal) {
-    if (start.x === goal.x && start.y === goal.y) return [];
-    const key = (p) => `${p.x},${p.y}`;
-    const visited = new Set([key(start)]);
-    const parent = new Map();
-    const queue = [start];
-    const dirs = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+  // BFS Tile Pathfinder
+  function findPath(sx, sy, gx, gy, gridW, gridH) {
+    const startX = Math.max(1, Math.min(gridW - 2, Math.round(sx)));
+    const startY = Math.max(1, Math.min(gridH - 2, Math.round(sy)));
+    const goalX = Math.max(1, Math.min(gridW - 2, Math.round(gx)));
+    const goalY = Math.max(1, Math.min(gridH - 2, Math.round(gy)));
+
+    if (startX === goalX && startY === goalY) return [];
+
+    const key = (x, y) => `${x},${y}`;
+    const queue = [{ x: startX, y: startY }];
+    const cameFrom = new Map();
+    cameFrom.set(key(startX, startY), null);
+
+    const dirs = [
+      { dx: 1, dy: 0 },
+      { dx: -1, dy: 0 },
+      { dx: 0, dy: 1 },
+      { dx: 0, dy: -1 }
+    ];
 
     while (queue.length > 0) {
       const cur = queue.shift();
+      if (cur.x === goalX && cur.y === goalY) break;
+
       for (const d of dirs) {
-        const nx = cur.x + d.x, ny = cur.y + d.y;
-        const nk = `${nx},${ny}`;
-        if (nx < 1 || nx >= gridW - 1 || ny < 1 || ny >= gridH - 1) continue;
-        if (visited.has(nk)) continue;
-        if (blockedSet.has(nk) && !(nx === goal.x && ny === goal.y)) continue;
-        visited.add(nk);
-        parent.set(nk, cur);
-        if (nx === goal.x && ny === goal.y) {
-          const path = [];
-          let p = goal;
-          while (!(p.x === start.x && p.y === start.y)) {
-            path.unshift(p);
-            p = parent.get(key(p));
-          }
-          return path;
-        }
+        const nx = cur.x + d.dx;
+        const ny = cur.y + d.dy;
+        if (nx < 1 || ny < 1 || nx >= gridW - 1 || ny >= gridH - 1) continue;
+        const k = key(nx, ny);
+        if (cameFrom.has(k)) continue;
+        cameFrom.set(k, cur);
         queue.push({ x: nx, y: ny });
       }
     }
-    return [goal];
+
+    const goalKey = key(goalX, goalY);
+    if (!cameFrom.has(goalKey)) return [{ x: goalX, y: goalY }];
+
+    const path = [];
+    let step = { x: goalX, y: goalY };
+    while (step && !(step.x === startX && step.y === startY)) {
+      path.push(step);
+      step = cameFrom.get(key(step.x, step.y)) || null;
+    }
+    path.reverse();
+    return path;
   }
 
-  window.MunderSprites = {
+  window.AegisSprites = {
     PORTRAIT_W,
     PORTRAIT_H,
     SCENE_W,
     SCENE_H,
+    AGENT_PALETTES,
     getPortraitCanvas,
     getSceneFrames,
     paintPortraitToCanvas,
-    findPath,
+    findPath
   };
 })();
