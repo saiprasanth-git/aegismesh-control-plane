@@ -120,7 +120,7 @@
       if (a.id === step.from) {
         sp.status = step.ok ? 'working' : 'blocked';
         const shortTool = step.tool.includes('.') ? step.tool.split('.')[1] : step.tool;
-        sp.bubbleText = `${step.act.toUpperCase()}:${shortTool}`;
+        sp.bubbleText = `${shortTool}()`;
         sp.bubbleTimer = 5.0;
       } else if (state.phaseStatuses[a.phaseIndex] === 'passed') {
         sp.status = 'success';
@@ -926,18 +926,18 @@
 
       // Overhead Action Pill (Dedicated band cleanly above monitors)
       if (sp.bubbleText) {
-        ctx.font = '700 9px "JetBrains Mono", monospace';
-        const label = sp.bubbleText.length > 22 ? sp.bubbleText.slice(0, 21) + '…' : sp.bubbleText;
-        const textW = Math.ceil(Math.max(78, ctx.measureText(label).width + 10));
+        ctx.font = '700 10px "JetBrains Mono", monospace';
+        const label = sp.bubbleText.length > 18 ? sp.bubbleText.slice(0, 17) + '…' : sp.bubbleText;
+        const textW = Math.ceil(Math.max(88, ctx.measureText(label).width + 20));
         const bx = Math.round(px + 20 - textW / 2);
-        const by = Math.round(py - 25);
+        const by = Math.round(py - 26);
         ctx.fillStyle = sp.status === 'blocked' ? '#3D2422' : '#FFF8E7';
         ctx.strokeStyle = sp.status === 'blocked' ? '#F08A80' : '#1A1320';
         ctx.lineWidth = 1.5;
-        ctx.fillRect(bx, by, textW, 13);
-        ctx.strokeRect(bx, by, textW, 13);
+        ctx.fillRect(bx, by, textW, 15);
+        ctx.strokeRect(bx, by, textW, 15);
         ctx.fillStyle = sp.status === 'blocked' ? '#ECE9E2' : '#1A1320';
-        ctx.fillText(label, Math.round(px + 20), by + 10);
+        ctx.fillText(label, Math.round(px + 20), by + 11);
       }
     });
 
