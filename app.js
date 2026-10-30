@@ -600,8 +600,8 @@
       const cp2x = aPos.x + (tPos.x - aPos.x) * 0.55;
       ctx.bezierCurveTo(cp1x, aPos.y, cp2x, tPos.y, tPos.x - 42, tPos.y);
       ctx.strokeStyle = active
-        ? (isLight ? '#0284C7' : '#38BDF8')
-        : (isLight ? 'rgba(100,116,139,0.25)' : 'rgba(148,163,184,0.2)');
+        ? (isLight ? '#237082' : '#72C2D6')
+        : (isLight ? 'rgba(140,123,153,0.35)' : 'rgba(120,118,134,0.35)');
       ctx.lineWidth = active ? 2.2 : 1;
       ctx.stroke();
     });
@@ -610,24 +610,24 @@
     AGENTS.forEach((a) => {
       const p = agentCoords[a.id];
       const selected = a.id === state.selectedAgentId;
-      ctx.fillStyle = selected ? (isLight ? '#E0F2FE' : '#0C2D48') : (isLight ? '#FFFFFF' : '#131C31');
-      ctx.strokeStyle = selected ? '#38BDF8' : (isLight ? '#94A3B8' : '#334155');
+      ctx.fillStyle = selected ? (isLight ? '#D0ECF2' : '#1E353D') : (isLight ? '#FCFAF0' : '#252530');
+      ctx.strokeStyle = selected ? '#72C2D6' : (isLight ? '#8C7B99' : '#787686');
       ctx.lineWidth = selected ? 1.5 : 1;
       ctx.fillRect(p.x - 44, p.y - 8, 78, 16);
       ctx.strokeRect(p.x - 44, p.y - 8, 78, 16);
-      ctx.fillStyle = isLight ? '#0F172A' : '#F1F5F9';
+      ctx.fillStyle = isLight ? '#1A1320' : '#ECE9E2';
       ctx.fillText(`@${a.id}`, p.x - 38, p.y + 3);
     });
 
     GRAPH_TOPICS.forEach((t) => {
       const p = topicCoords[t.id];
       const connected = GRAPH_EDGES.some((e) => e.agent === state.selectedAgentId && e.topic === t.id);
-      ctx.fillStyle = connected ? (isLight ? '#F3E8FF' : '#2E1065') : (isLight ? '#FFFFFF' : '#131C31');
-      ctx.strokeStyle = connected ? '#A855F7' : (isLight ? '#94A3B8' : '#334155');
+      ctx.fillStyle = connected ? (isLight ? '#E4DEF7' : '#2D2742') : (isLight ? '#FCFAF0' : '#252530');
+      ctx.strokeStyle = connected ? '#B5A4F0' : (isLight ? '#8C7B99' : '#787686');
       ctx.lineWidth = connected ? 1.5 : 1;
       ctx.fillRect(p.x - 42, p.y - 8, 148, 16);
       ctx.strokeRect(p.x - 42, p.y - 8, 148, 16);
-      ctx.fillStyle = isLight ? '#0F172A' : '#F1F5F9';
+      ctx.fillStyle = isLight ? '#1A1320' : '#ECE9E2';
       ctx.fillText(t.label, p.x - 36, p.y + 3);
     });
   }
@@ -699,40 +699,40 @@
     renderBottomTelemetry();
   }
 
-  // High-Detail 2D Pixel Cyber-Ops Command Floor
+  // High-Detail 2D Pixel Cyber-Ops Command Floor (Warm SNES Color Grading)
   const FLOOR_THEMES = {
     soc: {
       name: 'Sector 01: Orbital Cyber-SOC',
-      bgA: '#0B1222',
-      bgB: '#0E172A',
-      border: '#1E293B',
-      gridLine: 'rgba(56, 189, 248, 0.07)',
-      aisle: '#132038',
-      deskTop: '#1E293B',
-      deskEdge: '#38BDF8',
-      rackBg: '#090D16'
+      bgA: '#2a2320',
+      bgB: '#322a26',
+      border: '#6b5a4a',
+      gridLine: 'rgba(232, 190, 98, 0.08)',
+      aisle: '#3b332e',
+      deskTop: '#a37c52',
+      deskEdge: '#735436',
+      rackBg: '#191920'
     },
     cleanroom: {
       name: 'Sector 02: Quantum Clean-Room Lab',
-      bgA: '#131629',
-      bgB: '#171B30',
-      border: '#312E81',
-      gridLine: 'rgba(168, 85, 247, 0.08)',
-      aisle: '#1E1B4B',
-      deskTop: '#272452',
-      deskEdge: '#A855F7',
-      rackBg: '#0F0D26'
+      bgA: '#1d2733',
+      bgB: '#233040',
+      border: '#4f759b',
+      gridLine: 'rgba(114, 194, 214, 0.08)',
+      aisle: '#2c3d50',
+      deskTop: '#5c768d',
+      deskEdge: '#3e5266',
+      rackBg: '#141419'
     },
     bridge: {
       name: 'Sector 03: Tactical Ops Bridge',
-      bgA: '#18222F',
-      bgB: '#1C2837',
-      border: '#334155',
-      gridLine: 'rgba(16, 185, 129, 0.08)',
-      aisle: '#243244',
-      deskTop: '#2D3E52',
-      deskEdge: '#10B981',
-      rackBg: '#0F1722'
+      bgA: '#1d2b24',
+      bgB: '#23342b',
+      border: '#5ca97a',
+      gridLine: 'rgba(116, 207, 155, 0.08)',
+      aisle: '#2b4035',
+      deskTop: '#7d8c6e',
+      deskEdge: '#536147',
+      rackBg: '#141916'
     }
   };
 
@@ -776,14 +776,14 @@
 
     // 2. Central PCB Data Conduit & Quantum Server Core (Row 6-7)
     const busY = Math.round(6.5 * TILE_PX);
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+    ctx.strokeStyle = 'rgba(232, 190, 98, 0.22)';
     ctx.lineWidth = 6;
     ctx.beginPath();
     ctx.moveTo(2 * TILE_PX, busY);
     ctx.lineTo((GRID_W - 2) * TILE_PX, busY);
     ctx.stroke();
 
-    ctx.strokeStyle = '#38BDF8';
+    ctx.strokeStyle = '#72C2D6';
     ctx.lineWidth = 2;
     ctx.setLineDash([8, 8]);
     ctx.lineDashOffset = -Math.floor(now / 28);
@@ -798,7 +798,7 @@
       const cx = (a.desk.x + 0.5) * TILE_PX;
       const cy = (a.desk.y + 0.5) * TILE_PX;
       const st = state.phaseStatuses[a.phaseIndex] || 'idle';
-      ctx.strokeStyle = st === 'blocked' ? 'rgba(244, 63, 94, 0.45)' : st === 'passed' ? 'rgba(16, 185, 129, 0.4)' : 'rgba(56, 189, 248, 0.25)';
+      ctx.strokeStyle = st === 'blocked' ? 'rgba(240, 138, 128, 0.5)' : st === 'passed' ? 'rgba(116, 207, 155, 0.45)' : 'rgba(232, 190, 98, 0.28)';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(cx, busY);
@@ -809,20 +809,20 @@
     // 3. Central Quantum Telemetry Server Rack Hub
     const hubX = Math.round(11.5 * TILE_PX);
     const hubY = busY;
-    ctx.fillStyle = '#070A12';
+    ctx.fillStyle = '#191920';
     ctx.fillRect(hubX - 36, hubY - 17, 72, 34);
-    ctx.strokeStyle = state.breakerState === 'OK' ? '#10B981' : '#F43F5E';
+    ctx.strokeStyle = state.breakerState === 'OK' ? '#74CF9B' : '#F08A80';
     ctx.lineWidth = 1.5;
     ctx.strokeRect(hubX - 36, hubY - 17, 72, 34);
 
     // Animated server rack LED blades
     for (let b = 0; b < 4; b++) {
       const blink = Math.sin(state.corePulse + b * 1.3) > 0;
-      ctx.fillStyle = state.breakerState !== 'OK' ? '#F43F5E' : blink ? '#10B981' : '#38BDF8';
+      ctx.fillStyle = state.breakerState !== 'OK' ? '#F08A80' : blink ? '#74CF9B' : '#E8BE62';
       ctx.fillRect(hubX - 26 + b * 14, hubY - 12, 10, 4);
     }
     ctx.font = '700 10px "JetBrains Mono", monospace';
-    ctx.fillStyle = '#E2E8F0';
+    ctx.fillStyle = '#ECE9E2';
     ctx.textAlign = 'center';
     ctx.fillText('CORE-HUB', hubX, hubY + 10);
 
@@ -835,42 +835,42 @@
 
       // glowing floor pad
       ctx.fillStyle = isSelected
-        ? 'rgba(56, 189, 248, 0.16)'
+        ? 'rgba(114, 194, 214, 0.18)'
         : status === 'blocked'
-          ? 'rgba(244, 63, 94, 0.14)'
-          : 'rgba(9, 13, 24, 0.45)';
+          ? 'rgba(240, 138, 128, 0.16)'
+          : 'rgba(20, 20, 25, 0.42)';
       ctx.fillRect(dx - 28, dy - 20, 88, 92);
 
       ctx.strokeStyle = isSelected
-        ? '#38BDF8'
+        ? '#72C2D6'
         : status === 'blocked'
-          ? '#F43F5E'
+          ? '#F08A80'
           : status === 'passed'
-            ? 'rgba(16, 185, 129, 0.5)'
-            : '#263554';
+            ? 'rgba(116, 207, 155, 0.55)'
+            : '#6b5a4a';
       ctx.lineWidth = isSelected ? 2 : 1;
       ctx.strokeRect(dx - 28, dy - 20, 88, 92);
 
-      // Cyber Desk Surface with illuminated front trim
+      // Desk Surface with warm edge trim
       ctx.fillStyle = pal.deskTop;
       ctx.fillRect(dx - 22, dy - 4, 76, 20);
-      ctx.fillStyle = status === 'blocked' ? '#F43F5E' : status === 'passed' ? '#10B981' : pal.deskEdge;
+      ctx.fillStyle = status === 'blocked' ? '#F08A80' : status === 'passed' ? '#74CF9B' : pal.deskEdge;
       ctx.fillRect(dx - 22, dy + 14, 76, 3);
 
       // Triple Holo-Monitors on Desk (Left, Center, Right)
-      const screenCol = status === 'blocked' ? '#F43F5E' : status === 'running' ? '#F59E0B' : status === 'passed' ? '#10B981' : '#38BDF8';
+      const screenCol = status === 'blocked' ? '#F08A80' : status === 'running' ? '#E8BE62' : status === 'passed' ? '#74CF9B' : '#72C2D6';
       [-18, 6, 30].forEach((offsetX, mIdx) => {
-        ctx.fillStyle = '#070A12';
+        ctx.fillStyle = '#191920';
         ctx.fillRect(dx + offsetX, dy - 13, 20, 11);
         ctx.fillStyle = screenCol;
         ctx.fillRect(dx + offsetX + 2, dy - 11, 16, 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.28)';
+        ctx.fillStyle = 'rgba(236, 233, 226, 0.35)';
         ctx.fillRect(dx + offsetX + 2, dy - 7, ((Math.floor(now / 180) + mIdx * 3) % 12) + 4, 2);
       });
 
       // Station Header Label (Dedicated band cleanly above monitors)
       ctx.font = '700 10px "JetBrains Mono", monospace';
-      ctx.fillStyle = isSelected ? '#38BDF8' : '#E2E8F0';
+      ctx.fillStyle = isSelected ? '#E8BE62' : '#ECE9E2';
       ctx.textAlign = 'center';
       ctx.fillText(`P${a.phaseIndex}·${a.phaseId}`, Math.round(dx + 16), Math.round(dy - 31));
     });
@@ -906,8 +906,8 @@
       const px = Math.round(sp.x * TILE_PX - 4);
       const py = Math.round(sp.y * TILE_PX - 24);
 
-      // Holo-ring under feet
-      ctx.fillStyle = state.selectedAgentId === a.id ? 'rgba(56, 189, 248, 0.42)' : 'rgba(0, 0, 0, 0.45)';
+      // Warm shadow under feet
+      ctx.fillStyle = state.selectedAgentId === a.id ? 'rgba(232, 190, 98, 0.42)' : 'rgba(0, 0, 0, 0.45)';
       ctx.fillRect(px + 6, py + 58, 28, 6);
 
       // Draw 20x32 sprite at 2x scale (40x64)
@@ -916,12 +916,12 @@
       // Crisp Agent Callsign Plate below character
       ctx.font = '700 10px "Inter", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(9, 13, 24, 0.92)';
+      ctx.fillStyle = 'rgba(25, 25, 32, 0.92)';
       ctx.fillRect(px - 12, py + 63, 64, 14);
-      ctx.strokeStyle = state.selectedAgentId === a.id ? '#38BDF8' : '#334155';
+      ctx.strokeStyle = state.selectedAgentId === a.id ? '#E8BE62' : '#787686';
       ctx.lineWidth = 1;
       ctx.strokeRect(px - 12, py + 63, 64, 14);
-      ctx.fillStyle = state.selectedAgentId === a.id ? '#38BDF8' : '#F1F5F9';
+      ctx.fillStyle = state.selectedAgentId === a.id ? '#E8BE62' : '#ECE9E2';
       ctx.fillText(a.name, px + 20, py + 73);
 
       // Overhead Action Pill (Dedicated band cleanly above monitors)
@@ -931,25 +931,25 @@
         const textW = Math.ceil(Math.max(78, ctx.measureText(label).width + 10));
         const bx = Math.round(px + 20 - textW / 2);
         const by = Math.round(py - 25);
-        ctx.fillStyle = sp.status === 'blocked' ? '#4C0519' : '#0C2D48';
-        ctx.strokeStyle = sp.status === 'blocked' ? '#F43F5E' : '#38BDF8';
-        ctx.lineWidth = 1;
+        ctx.fillStyle = sp.status === 'blocked' ? '#3D2422' : '#FFF8E7';
+        ctx.strokeStyle = sp.status === 'blocked' ? '#F08A80' : '#1A1320';
+        ctx.lineWidth = 1.5;
         ctx.fillRect(bx, by, textW, 13);
         ctx.strokeRect(bx, by, textW, 13);
-        ctx.fillStyle = '#F8FAFC';
+        ctx.fillStyle = sp.status === 'blocked' ? '#ECE9E2' : '#1A1320';
         ctx.fillText(label, Math.round(px + 20), by + 10);
       }
     });
 
     // 6. Update & Draw Flying FIPA Data Envelopes
     const ACT_HEX = {
-      request: '#38BDF8',
-      inform: '#E2E8F0',
-      propose: '#F59E0B',
-      query: '#A855F7',
-      agree: '#10B981',
-      done: '#10B981',
-      refuse: '#F43F5E'
+      request: '#72C2D6',
+      inform: '#ECE9E2',
+      propose: '#E8BE62',
+      query: '#B5A4F0',
+      agree: '#74CF9B',
+      done: '#74CF9B',
+      refuse: '#F08A80'
     };
 
     state.envelopes = state.envelopes.filter((env) => {
@@ -960,10 +960,10 @@
       const lift = -42 * Math.sin(Math.PI * e);
       const y = Math.round(env.sy + (env.ey - env.sy) * e + lift);
 
-      const col = env.isAlert ? '#F43F5E' : (ACT_HEX[env.act] || '#38BDF8');
+      const col = env.isAlert ? '#F08A80' : (ACT_HEX[env.act] || '#E8BE62');
       ctx.fillStyle = col;
       ctx.fillRect(x - 9, y - 6, 18, 12);
-      ctx.strokeStyle = '#070A12';
+      ctx.strokeStyle = '#1A1320';
       ctx.lineWidth = 1.5;
       ctx.strokeRect(x - 9, y - 6, 18, 12);
       ctx.beginPath();

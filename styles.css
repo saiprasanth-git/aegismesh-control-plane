@@ -4,65 +4,65 @@
 
 :root,
 [data-theme='dark'] {
-  --color-bg: #070B14;
-  --color-surface: #0E1525;
-  --color-surface-2: #131C31;
-  --color-surface-3: #19243E;
-  --color-border: #263554;
-  --color-border-strong: #384E78;
-  --color-divider: #1B2740;
+  --color-bg: #141419;
+  --color-surface: #1D1D25;
+  --color-surface-2: #252530;
+  --color-surface-3: #2C2C38;
+  --color-border: #787686;
+  --color-border-strong: #A5A0B0;
+  --color-divider: #363542;
 
-  --color-text: #F1F5F9;
-  --color-text-muted: #94A3B8;
-  --color-text-faint: #64748B;
+  --color-text: #ECE9E2;
+  --color-text-muted: #C6C3BC;
+  --color-text-faint: #A5A0B0;
 
-  --accent-sky: #38BDF8;
-  --accent-sky-soft: rgba(56, 189, 248, 0.14);
-  --accent-emerald: #10B981;
-  --accent-emerald-soft: rgba(16, 185, 129, 0.14);
-  --accent-amber: #F59E0B;
-  --accent-amber-soft: rgba(245, 158, 11, 0.15);
-  --accent-rose: #F43F5E;
-  --accent-rose-soft: rgba(244, 63, 94, 0.15);
-  --accent-violet: #A855F7;
-  --accent-violet-soft: rgba(168, 85, 247, 0.15);
-  --accent-teal: #2DD4BF;
+  --accent-sky: #72C2D6;
+  --accent-sky-soft: #1E353D;
+  --accent-emerald: #74CF9B;
+  --accent-emerald-soft: #1F382B;
+  --accent-amber: #E8BE62;
+  --accent-amber-soft: #3B321E;
+  --accent-rose: #F08A80;
+  --accent-rose-soft: #3D2422;
+  --accent-violet: #B5A4F0;
+  --accent-violet-soft: #2D2742;
+  --accent-teal: #EDA882;
 
-  --shadow-card: 0 8px 24px -6px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(56, 189, 248, 0.05);
-  --shadow-glow-sky: 0 0 16px rgba(56, 189, 248, 0.22);
-  --shadow-glow-emerald: 0 0 14px rgba(16, 185, 129, 0.18);
-  --shadow-glow-rose: 0 0 18px rgba(244, 63, 94, 0.28);
+  --shadow-card: 3px 3px 0 rgba(0, 0, 0, 0.42);
+  --shadow-glow-sky: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow-glow-emerald: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow-glow-rose: 2px 2px 0 rgba(0, 0, 0, 0.35);
 }
 
 [data-theme='light'] {
-  --color-bg: #EEF2F6;
-  --color-surface: #FFFFFF;
-  --color-surface-2: #F8FAFC;
-  --color-surface-3: #E2E8F0;
-  --color-border: #CBD5E1;
-  --color-border-strong: #94A3B8;
-  --color-divider: #E2E8F0;
+  --color-bg: #FFF8E7;
+  --color-surface: #FCFAF0;
+  --color-surface-2: #F0EAD2;
+  --color-surface-3: #F4E9C7;
+  --color-border: #8C7B99;
+  --color-border-strong: #5E4B6B;
+  --color-divider: #D9CFE0;
 
-  --color-text: #0F172A;
-  --color-text-muted: #475569;
-  --color-text-faint: #64748B;
+  --color-text: #1A1320;
+  --color-text-muted: #3D2E4A;
+  --color-text-faint: #5E4B6B;
 
-  --accent-sky: #0284C7;
-  --accent-sky-soft: rgba(2, 132, 199, 0.11);
-  --accent-emerald: #059669;
-  --accent-emerald-soft: rgba(5, 150, 105, 0.11);
-  --accent-amber: #D97706;
-  --accent-amber-soft: rgba(217, 119, 6, 0.12);
-  --accent-rose: #E11D48;
-  --accent-rose-soft: rgba(225, 29, 72, 0.11);
-  --accent-violet: #7C3AED;
-  --accent-violet-soft: rgba(124, 58, 237, 0.11);
-  --accent-teal: #0D9488;
+  --accent-sky: #237082;
+  --accent-sky-soft: #D0ECF2;
+  --accent-emerald: #2E7D52;
+  --accent-emerald-soft: #D2EFE0;
+  --accent-amber: #9E6E08;
+  --accent-amber-soft: #F7E8BE;
+  --accent-rose: #C84B42;
+  --accent-rose-soft: #F7D8D4;
+  --accent-violet: #634DB0;
+  --accent-violet-soft: #E4DEF7;
+  --accent-teal: #B35E32;
 
-  --shadow-card: 0 4px 14px -2px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.04);
-  --shadow-glow-sky: 0 0 0 2px rgba(2, 132, 199, 0.25);
-  --shadow-glow-emerald: 0 0 0 2px rgba(5, 150, 105, 0.2);
-  --shadow-glow-rose: 0 0 0 2px rgba(225, 29, 72, 0.25);
+  --shadow-card: 3px 3px 0 rgba(26, 19, 32, 0.16);
+  --shadow-glow-sky: 2px 2px 0 rgba(26, 19, 32, 0.14);
+  --shadow-glow-emerald: 2px 2px 0 rgba(26, 19, 32, 0.14);
+  --shadow-glow-rose: 2px 2px 0 rgba(26, 19, 32, 0.14);
 }
 
 :root {
@@ -80,8 +80,8 @@
   --space-3: 0.75rem;
   --space-4: 1rem;
 
-  --radius-sm: 6px;
-  --radius-md: 8px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
 }
 
 *,
@@ -179,10 +179,10 @@ button {
   align-items: center;
   gap: 8px;
   padding: 5px 11px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(16, 185, 129, 0.14));
-  border: 1px solid var(--accent-sky);
+  background: var(--accent-amber);
+  border: 2px solid #1A1320;
   border-radius: var(--radius-sm);
-  color: var(--accent-sky);
+  color: #1A1320;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.78rem;
@@ -600,7 +600,7 @@ button {
 /* 6. 2D Cyber-Ops Floor Canvas & Squad Cast Strip */
 .floor-canvas-wrap {
   position: relative;
-  background: #080D1A;
+  background: #1B1816;
   width: 100%;
   aspect-ratio: 24 / 14;
   border-bottom: 1px solid var(--color-border);
@@ -630,9 +630,9 @@ button {
 .hud-pill {
   pointer-events: auto;
   padding: 2px 9px;
-  background: rgba(9, 13, 24, 0.92);
-  border: 1px solid #334155;
-  color: #E2E8F0;
+  background: rgba(20, 20, 25, 0.9);
+  border: 1px solid #787686;
+  color: #ECE9E2;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   border-radius: 4px;
@@ -677,8 +677,8 @@ button {
   height: 36px;
   image-rendering: pixelated;
   flex-shrink: 0;
-  background: #0B1120;
-  border: 1px solid var(--color-border-strong);
+  background: #252530;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
 }
 

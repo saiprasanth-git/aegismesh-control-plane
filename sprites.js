@@ -22,76 +22,76 @@
 
   const AGENT_PALETTES = {
     vex: {
-      // P1: Lead Architect & DAG Planner (Electric Cyan Visor + Navy Commander Coat)
-      O: '#070A12',
-      S: '#F1C6A7', s: '#D49E7A',
-      H: '#1E293B', h: '#475569',
-      J: '#1E3A5F', j: '#0F233D',
-      A: '#38BDF8', a: '#BAE6FD',
-      U: '#F8FAFC', P: '#0F172A', B: '#090D16', M: '#94A3B8'
+      // P1: Lead Architect & DAG Planner (Warm Navy Suit + Sky Visor)
+      O: '#1A1320',
+      S: '#F2C19E', s: '#D49E7A',
+      H: '#2C221E', h: '#524139',
+      J: '#2B3A4A', j: '#1D2833',
+      A: '#72C2D6', a: '#D0ECF2',
+      U: '#FCFAF0', P: '#1F2933', B: '#1A1320', M: '#C6C3BC'
     },
     cipher: {
-      // P2: Binary & Crash Forensics (Neon Violet Neural Goggles + Obsidian Trench)
-      O: '#070A12',
-      S: '#E5B899', s: '#C6906E',
-      H: '#E2E8F0', h: '#94A3B8',
-      J: '#2E1F47', j: '#1A112B',
-      A: '#A855F7', a: '#E9D5FF',
-      U: '#334155', P: '#1E1B2E', B: '#090D16', M: '#CBD5E1'
+      // P2: Binary & Crash Forensics (Warm Ochre Jacket + Lilac Goggles)
+      O: '#1A1320',
+      S: '#F0BD99', s: '#C9936E',
+      H: '#6B4C2B', h: '#8F683D',
+      J: '#D4A838', j: '#A68020',
+      A: '#B5A4F0', a: '#E4DEF7',
+      U: '#FCFAF0', P: '#4A3B28', B: '#1A1320', M: '#ECE9E2'
     },
     kael: {
-      // P3: Code & IaC Synthesizer (Amber Cyber-Hoodie + Holo-Gloves)
-      O: '#070A12',
-      S: '#D9A17C', s: '#B87D58',
-      H: '#18181B', h: '#3F3F46',
-      J: '#B45309', j: '#78350F',
-      A: '#F59E0B', a: '#FDE68A',
-      U: '#1E293B', P: '#1E293B', B: '#090D16', M: '#94A3B8'
+      // P3: Code & IaC Synthesizer (Warm Steel-Blue Jacket + Coral Trim)
+      O: '#1A1320',
+      S: '#F4C5A4', s: '#D6A07C',
+      H: '#5C3D28', h: '#7D553A',
+      J: '#3E5F8A', j: '#2B4466',
+      A: '#F08A80', a: '#F7D8D4',
+      U: '#FCFAF0', P: '#263240', B: '#1A1320', M: '#C6C3BC'
     },
     lyra: {
-      // P4: AST & PR Verifier (Emerald Comms Headset + Slate Tactical Blazer)
-      O: '#070A12',
-      S: '#F5CBA7', s: '#D9A47C',
-      H: '#5B21B6', h: '#7C3AED',
-      J: '#065F46', j: '#064E3B',
-      A: '#10B981', a: '#A7F3D0',
-      U: '#F1F5F9', P: '#1E293B', B: '#090D16', M: '#CBD5E1'
+      // P4: AST & PR Verifier (Warm Sage/Teal Blazer + Mint Comms)
+      O: '#1A1320',
+      S: '#F6CCA8', s: '#D9A882',
+      H: '#B85A32', h: '#D9774A',
+      J: '#5C8A78', j: '#426658',
+      A: '#74CF9B', a: '#D2EFE0',
+      U: '#FCFAF0', P: '#2E3B36', B: '#1A1320', M: '#ECE9E2'
     },
     drake: {
-      // P5: Concurrency & Chaos QA (Crimson-Orange Hazard Rig + Visor)
-      O: '#070A12',
-      S: '#C68B59', s: '#9C6639',
-      H: '#27272A', h: '#52525B',
-      J: '#9F1239', j: '#881337',
-      A: '#FB7185', a: '#FECDD3',
-      U: '#18181B', P: '#27272A', B: '#090D16', M: '#94A3B8'
+      // P5: Concurrency & Chaos QA (Warm Charcoal Rig + Amber/Gold Visor)
+      O: '#1A1320',
+      S: '#EBB692', s: '#C78E69',
+      H: '#242024', h: '#453E45',
+      J: '#3A3A48', j: '#262630',
+      A: '#E8BE62', a: '#F7E8BE',
+      U: '#FCFAF0', P: '#22222B', B: '#1A1320', M: '#C6C3BC'
     },
     nyx: {
-      // P6: Zero-Trust Guardrail Warden (Indigo-Silver Sentinel Armor + Shield Crest)
-      O: '#070A12',
-      S: '#F3D1B8', s: '#D5A98A',
-      H: '#0F172A', h: '#38BDF8',
-      J: '#312E81', j: '#1E1B4B',
-      A: '#818CF8', a: '#E0E7FF',
-      U: '#E2E8F0', P: '#1E1B4B', B: '#090D16', M: '#E2E8F0'
+      // P6: Zero-Trust Guardrail Warden (Warm Plum/Violet Coat + Gold Crest)
+      O: '#1A1320',
+      S: '#F5C8A6', s: '#D4A17E',
+      H: '#D9B854', h: '#F0D478',
+      J: '#4B3D60', j: '#352A45',
+      A: '#E8BE62', a: '#F7E8BE',
+      U: '#FCFAF0', P: '#2A2236', B: '#1A1320', M: '#ECE9E2'
     },
     orion: {
-      // P7: Progressive Canary & FinOps (Teal-Gold Flight Director Jacket)
-      O: '#070A12',
-      S: '#8D5524', s: '#6B3E17',
-      H: '#090D16', h: '#334155',
-      J: '#115E59', j: '#134E4A',
-      A: '#2DD4BF', a: '#99F6E4',
-      U: '#F8FAFC', P: '#0F172A', B: '#090D16', M: '#FBBF24'
+      // P7: Progressive Canary & FinOps (Warm Olive/Brown Jacket + Sky Badge)
+      O: '#1A1320',
+      S: '#8C583A', s: '#6B4026',
+      H: '#1C1614', h: '#3B2F2B',
+      J: '#5C5346', j: '#423B31',
+      A: '#72C2D6', a: '#D0ECF2',
+      U: '#FCFAF0', P: '#332E27', B: '#1A1320', M: '#E8BE62'
     },
     sora: {
-      // P8: OpenTelemetry SRE & Feedback Loop (Sky-Mint Telemetry Visor + Ops Rig)
-      O: '#070A12',
-      S: '#EAC09E', s: '#C99874',
-      H: '#0284C7', h: '#38BDF8',
-      J: '#1E293B', j: '#0F172A',
-      A: '#34D399', a: '#D1FAE5',
-      U: '#0F172A', P: '#1E293B', B: '#090D16', M: '#38BDF8'
+      // P8: OpenTelemetry SRE & Feedback Loop (Warm Terracotta/Plum Jacket + Mint Visor)
+      O: '#1A1320',
+      S: '#C48A64', s: '#9E6B49',
+      H: '#1F181B', h: '#3D3036',
+      J: '#9E3B68', j: '#75294C',
+      A: '#74CF9B', a: '#D2EFE0',
+      U: '#FCFAF0', P: '#2B2329', B: '#1A1320', M: '#72C2D6'
     }
   };
 
