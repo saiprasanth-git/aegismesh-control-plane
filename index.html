@@ -288,28 +288,49 @@
     </section>
   </div>
 
-  <!-- 7. Custom Target / Crash Forensics Modal -->
+  <!-- 7. Custom Target / Real-Time Live Scenario Modal -->
   <div id="customMissionModal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-wide">
       <div class="panel-header">
-        <div id="modalTitle" class="panel-title">Dispatch Custom Repository or Binary Forensics Target</div>
+        <div id="modalTitle" class="panel-title">⚡ Live Real-Time Scenario Tester &amp; GitHub / Crash Probe</div>
         <button type="button" id="closeModalBtn" class="btn">✕ Close</button>
       </div>
       <form id="launchCustomMissionForm" class="modal-body">
+        <div class="chaos-control-box">
+          <div class="section-bar">
+            <span class="section-bar-title" style="color:var(--accent-amber);">1-CLICK REAL-TIME SCENARIO PRESETS (LIVE GITHUB API + DYNAMIC GUARDRAIL ENGINE)</span>
+            <span id="liveProbeStatusBadge" class="mono-sky">Ready for Live Probe</span>
+          </div>
+          <div class="chaos-btn-row">
+            <button type="button" class="btn btn-accent" data-live-preset="oom-crash">
+              🔥 Scenario 1: Live Repo + Node.js Worker OOM Crash Fix
+            </button>
+            <button type="button" class="btn btn-danger" data-live-preset="secret-breach">
+              🛡 Scenario 2: Live Repo + Rogue .env / prod.tf Breach (Auto-Halts at P6)
+            </button>
+            <button type="button" class="btn btn-amber" data-live-preset="redis-thundering-herd">
+              ⚡ Scenario 3: Live Repo + Redis Cache Stampede &amp; Canary Auto-Scale
+            </button>
+          </div>
+        </div>
+
         <div class="form-field">
-          <label for="customRepoInput">Target GitHub Repository or Production Service</label>
-          <input id="customRepoInput" class="form-input" type="text" value="github.com/saiprasanth-git/agentic-devops-mesh" required />
+          <label for="customRepoInput">Target Public GitHub Repository (Probed Live via GitHub REST API)</label>
+          <input id="customRepoInput" class="form-input" type="text" value="github.com/vercel/next.js" required />
         </div>
         <div class="form-field">
-          <label for="customTitleInput">Lifecycle Objective / Incident Description</label>
-          <input id="customTitleInput" class="form-input" type="text" value="Harden LangGraph Dev-Verifier handoff &amp; add Canary SLO auto-rollback" required />
+          <label for="customTitleInput">Real-Time Incident Objective / Production Alert</label>
+          <input id="customTitleInput" class="form-input" type="text" value="Fix worker OOM heap exhaustion under concurrent SSR streaming bursts" required />
         </div>
         <div class="form-field">
-          <label for="customArtifactInput">Target Binary / Sourceless Bundle / Crash Dump for CIPHER (Phase 2 Recon)</label>
-          <textarea id="customArtifactInput" class="form-textarea">dist/mesh-runner.bundle.js + logs/otel-trace-408.json</textarea>
+          <label for="customArtifactInput">Live Crash Dump / Sourceless Bundle / Policy Payload (Dynamically Scanned by CIPHER &amp; NYX)</label>
+          <textarea id="customArtifactInput" class="form-textarea">FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+1: 0x104a8c [node] v8::internal::V8::FatalProcessOutOfMemory
+Bundle: dist/esm/server/render-worker.bundle.js (unbounded Map cache in streamChunk)</textarea>
         </div>
-        <div style="display:flex;justify-content:flex-end;gap:var(--space-2);">
-          <button type="submit" class="btn btn-primary">▶ Dispatch to 8-Phase AegisMesh Floor</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);flex-wrap:wrap;">
+          <span class="mono-muted">Tip: Include <code>prod.tf</code>, <code>.env</code>, or <code>AWS_SECRET</code> in the payload to test real-time Phase 6 Guardrail quarantine.</span>
+          <button type="submit" id="submitLiveScenarioBtn" class="btn btn-primary">▶ Probe Live Repo &amp; Run 8-Phase Lifecycle</button>
         </div>
       </form>
     </div>
