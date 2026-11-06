@@ -2,8 +2,13 @@
   "name": "aegismesh-control-plane",
   "version": "1.0.0",
   "description": "AEGIS // MESH — Autonomous 8-Phase DevOps & Binary Forensics Control Plane",
-  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saiprasanth-git/aegismesh-control-plane.git"
+  },
   "scripts": {
-    "start": "npx serve -l 3000 ."
+    "start": "npx serve -l 3000 .",
+    "test": "node tests/verify-engines.mjs"
   }
 }

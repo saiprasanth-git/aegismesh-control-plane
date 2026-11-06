@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #141210; }
+      .panel { fill: #1C1917; stroke: #36302B; stroke-width: 1.5; rx: 8; }
+      .panel-header { fill: #26221E; stroke: #36302B; stroke-width: 1; rx: 6; }
+      .badge-amber { fill: #3B2818; stroke: #D97706; stroke-width: 1.2; rx: 4; }
+      .badge-sage { fill: #192B22; stroke: #3F8F6B; stroke-width: 1.2; rx: 4; }
+      .badge-rust { fill: #381A1A; stroke: #C2410C; stroke-width: 1.2; rx: 4; }
+      .node-box { fill: #24201C; stroke: #574E46; stroke-width: 1.5; rx: 6; }
+      .node-active { fill: #2B231B; stroke: #D97706; stroke-width: 2; rx: 6; }
+      .node-shield { fill: #2E1B18; stroke: #C2410C; stroke-width: 2; rx: 6; }
+      .title { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #F5F2EB; letter-spacing: 1px; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #A8A096; }
+      .mono-sm { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; fill: #D6CFC7; }
+      .mono-xs { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #9C9288; }
+      .mono-amber { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; font-weight: 700; fill: #F59E0B; }
+      .mono-sage { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; font-weight: 700; fill: #52B788; }
+      .mono-rust { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; font-weight: 700; fill: #EA580C; }
+      .connector { stroke: #6B6057; stroke-width: 1.8; fill: none; stroke-dasharray: 4 3; }
+      .solid-line { stroke: #D97706; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#D97706"/>
+    </marker>
+  </defs>
+
+  <!-- Outer Frame -->
+  <rect width="1200" height="540" class="bg" rx="12"/>
+  <rect x="16" y="16" width="1168" height="508" fill="none" stroke="#36302B" stroke-width="2" rx="10"/>
+
+  <!-- Top Header Strip -->
+  <rect x="32" y="30" width="1136" height="62" class="panel"/>
+  <text x="52" y="58" class="title">AEGIS // MESH — 8-PHASE AUTONOMOUS DEVOPS &amp; BINARY FORENSICS CONTROL PLANE</text>
+  <text x="52" y="78" class="subtitle">Deterministic Multi-Agent Delivery DAG · Live GitHub REST API Probe · Ahead-of-Time Policy Gates · Portable aegismesh/agent@1 Manifests</text>
+
+  <rect x="970" y="44" width="180" height="34" class="badge-sage"/>
+  <text x="988" y="65" class="mono-sage">DORA TIER: ELITE · ZERO DEPS</text>
+
+  <!-- 8-Phase Pipeline Ribbon -->
+  <rect x="32" y="108" width="1136" height="118" class="panel"/>
+  <text x="52" y="132" class="mono-amber">DETERMINISTIC 8-PHASE DELIVERY &amp; FORENSICS DAG (STRICT SEPARATION OF DUTIES)</text>
+
+  <!-- Phase 1 -->
+  <rect x="50" y="146" width="122" height="64" class="node-active"/>
+  <text x="62" y="165" class="mono-amber">P1 · PLAN</text>
+  <text x="62" y="182" class="mono-sm">VEX (ARC-01)</text>
+  <text x="62" y="198" class="mono-xs">DAG &amp; SLO Spec</text>
+
+  <!-- Phase 2 -->
+  <rect x="188" y="146" width="122" height="64" class="node-active"/>
+  <text x="200" y="165" class="mono-amber">P2 · RECON</text>
+  <text x="200" y="182" class="mono-sm">CIPHER (REC-02)</text>
+  <text x="200" y="198" class="mono-xs">ELF / AST Forensics</text>
+
+  <!-- Phase 3 -->
+  <rect x="326" y="146" width="122" height="64" class="node-box"/>
+  <text x="338" y="165" class="mono-sm">P3 · SYNTH</text>
+  <text x="338" y="182" class="mono-sm">KAEL (SYN-03)</text>
+  <text x="338" y="198" class="mono-xs">Clean-Room Patch</text>
+
+  <!-- Phase 4 -->
+  <rect x="464" y="146" width="122" height="64" class="node-box"/>
+  <text x="476" y="165" class="mono-sm">P4 · VERIFY</text>
+  <text x="476" y="182" class="mono-sm">LYRA (VER-04)</text>
+  <text x="476" y="198" class="mono-xs">Independent Audit</text>
+
+  <!-- Phase 5 -->
+  <rect x="602" y="146" width="122" height="64" class="node-box"/>
+  <text x="614" y="165" class="mono-sm">P5 · CHAOS</text>
+  <text x="614" y="182" class="mono-sm">DRAKE (CHS-05)</text>
+  <text x="614" y="198" class="mono-xs">50-Way Race Fuzz</text>
+
+  <!-- Phase 6 -->
+  <rect x="740" y="146" width="122" height="64" class="node-shield"/>
+  <text x="752" y="165" class="mono-rust">P6 · SHIELD</text>
+  <text x="752" y="182" class="mono-sm">NYX (SHD-06)</text>
+  <text x="752" y="198" class="mono-xs">AOT Zero-Trust Gate</text>
+
+  <!-- Phase 7 -->
+  <rect x="878" y="146" width="122" height="64" class="node-box"/>
+  <text x="890" y="165" class="mono-sage">P7 · CANARY</text>
+  <text x="890" y="182" class="mono-sm">ORION (CAN-07)</text>
+  <text x="890" y="198" class="mono-xs">Argo 5%→25%→100%</text>
+
+  <!-- Phase 8 -->
+  <rect x="1016" y="146" width="134" height="64" class="node-box"/>
+  <text x="1028" y="165" class="mono-sage">P8 · PULSE</text>
+  <text x="1028" y="182" class="mono-sm">SORA (PLS-08)</text>
+  <text x="1028" y="198" class="mono-xs">OTel + KG Compaction</text>
+
+  <!-- Arrows between phases -->
+  <line x1="172" y1="178" x2="186" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+  <line x1="310" y1="178" x2="324" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+  <line x1="448" y1="178" x2="462" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+  <line x1="586" y1="178" x2="600" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+  <line x1="724" y1="178" x2="738" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+  <line x1="862" y1="178" x2="876" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+  <line x1="1000" y1="178" x2="1014" y2="178" class="solid-line" marker-end="url(#arrow)"/>
+
+  <!-- Bottom 3 Columns -->
+  <!-- Column 1: 2D Command Floor & FIPA Bus -->
+  <rect x="32" y="244" width="364" height="260" class="panel"/>
+  <rect x="46" y="258" width="336" height="32" class="panel-header"/>
+  <text x="58" y="279" class="mono-amber">1. 2D PIXEL COMMAND FLOOR &amp; FIPA ACL BUS</text>
+  <text x="54" y="314" class="mono-sm">• Procedural 18×32 3-frame specialist sprites</text>
+  <text x="54" y="338" class="mono-sm">• Deterministic BFS grid pathfinding across zones</text>
+  <text x="54" y="362" class="mono-sm">• FIPA speech-act envelopes: request, propose,</text>
+  <text x="54" y="382" class="mono-sm">  inform, agree, refuse, done</text>
+  <rect x="54" y="404" width="320" height="82" class="node-box"/>
+  <text x="68" y="426" class="mono-sage">LIVE GITHUB API PROBE (+ CUSTOM TARGET)</text>
+  <text x="68" y="446" class="mono-xs">GET https://api.github.com/repos/:owner/:repo</text>
+  <text x="68" y="464" class="mono-xs">Pulls real HEAD SHA, commit author, open issues &amp; RTT</text>
+  <text x="68" y="480" class="mono-xs">into P1 Plan &amp; P2 Recon before synthesis starts.</text>
+
+  <!-- Column 2: 6 Zero-Trust Guardrails & FinOps Breaker -->
+  <rect x="418" y="244" width="364" height="260" class="panel"/>
+  <rect x="432" y="258" width="336" height="32" class="panel-header"/>
+  <text x="444" y="279" class="mono-rust">2. ZERO-TRUST AOT GUARDRAILS &amp; CIRCUIT BREAKER</text>
+  <text x="440" y="314" class="mono-sm">• GR-01 Protected Path Lock (.env*, prod.tf, iam/*)</text>
+  <text x="440" y="338" class="mono-sm">• GR-02 High-Entropy Secret &amp; AWS Key Scrubber</text>
+  <text x="440" y="362" class="mono-sm">• GR-03 Zero Self-Approval (Kael ≠ Lyra sign-off)</text>
+  <text x="440" y="386" class="mono-sm">• GR-04 Binary ABI / ELF Note Owner Qualification</text>
+  <rect x="440" y="404" width="320" height="82" class="node-shield"/>
+  <text x="454" y="426" class="mono-rust">FINOPS &amp; POLICY VELOCITY BREAKER</text>
+  <text x="454" y="446" class="mono-xs">States: STEER (Normal) → CONSTRAIN (Warn) → STOP (Quarantine)</text>
+  <text x="454" y="464" class="mono-xs">Automatically halts Phase 6 if custom payload mutates</text>
+  <text x="454" y="480" class="mono-xs">protected Terraform state or leaks credentials.</text>
+
+  <!-- Column 3: 4-Mode Engineering Workbench -->
+  <rect x="804" y="244" width="364" height="260" class="panel"/>
+  <rect x="818" y="258" width="336" height="32" class="panel-header"/>
+  <text x="830" y="279" class="mono-sage">3. 4-MODE INTERACTIVE WORKBENCH</text>
+  <text x="826" y="314" class="mono-sm">• Tab 1: Recon &amp; Clean-Room AST/ELF Code Diff</text>
+  <text x="826" y="338" class="mono-sm">• Tab 2: Guardrail Audit Matrix &amp; Chaos Faults</text>
+  <text x="826" y="362" class="mono-sm">• Tab 3: TF-IDF Knowledge Graph + /compact Memory</text>
+  <text x="826" y="386" class="mono-sm">• Tab 4: Portable aegismesh/agent@1 JSON Export</text>
+  <rect x="826" y="404" width="320" height="82" class="node-box"/>
+  <text x="840" y="426" class="mono-amber">VERIFIED HEADLESS SMOKE SUITE</text>
+  <text x="840" y="446" class="mono-xs">Automated Node.js verification of all 8 specialists,</text>
+  <text x="840" y="464" class="mono-xs">6 Zero-Trust policy rules, TF-IDF retrieval engine,</text>
+  <text x="840" y="480" class="mono-xs">3-region memory compactor &amp; manifest schema parity.</text>
+</svg>
